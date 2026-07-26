@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "login": {
+      "success": "登录成功",
+      "failure": "邮箱或密码无效",
+      "email_required": "邮箱是必填项",
+      "password_required": "密码是必填项"
+    },
+    "register": {
+      "success": "注册成功",
+      "email_exists": "邮箱已被注册",
+      "username_exists": "用户名已被占用",
+      "password_weak": "密码必须至少8个字符"
+    }
+  },
+  "tokens": {
+    "create": {
+      "success": "代币创建成功",
+      "symbol_exists": "代币符号已存在",
+      "admin_only": "只有管理员可以创建代币"
+    },
+    "deploy": {
+      "success": "代币部署成功",
+      "invalid_status": "代币必须处于草稿或待批准状态",
+      "not_found": "未找到代币"
+    }
+  },
+  "orders": {
+    "create": {
+      "success": "订单创建成功",
+      "token_unavailable": "代币不可用于购买",
+      "insufficient_supply": "代币供应不足"
+    },
+    "confirm": {
+      "success": "付款确认成功",
+      "already_completed": "订单已完成",
+      "not_found": "未找到订单"
+    },
+    "cancel": {
+      "success": "订单取消成功",
+      "cannot_cancel": "无法取消已完成的订单"
+    }
+  },
+  "errors": {
+    "unauthorized": "未授权访问",
+    "forbidden": "访问被禁止",
+    "not_found": "未找到资源",
+    "internal_server": "内部服务器错误"
+  }
+}
