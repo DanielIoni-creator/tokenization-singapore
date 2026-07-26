@@ -1,0 +1,10 @@
+// Aggiungi dopo gli altri middleware (dopo helmet, cors, ecc.)
+const i18nMiddleware = require('./middleware/i18n');
+app.use(i18nMiddleware.middleware());
+
+// Aggiungi le variabili locali per i template
+app.use((req, res, next) => {
+  res.locals.t = req.t;
+  res.locals.locale = req.locale;
+  next();
+});

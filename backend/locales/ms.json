@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "login": {
+      "success": "Log masuk berjaya",
+      "failure": "Email atau kata laluan tidak sah",
+      "email_required": "Email diperlukan",
+      "password_required": "Kata laluan diperlukan"
+    },
+    "register": {
+      "success": "Pendaftaran berjaya",
+      "email_exists": "Email telah didaftarkan",
+      "username_exists": "Nama pengguna telah diambil",
+      "password_weak": "Kata laluan mestilah sekurang-kurangnya 8 aksara"
+    }
+  },
+  "tokens": {
+    "create": {
+      "success": "Token berjaya dicipta",
+      "symbol_exists": "Simbol token telah wujud",
+      "admin_only": "Hanya pentadbir boleh mencipta token"
+    },
+    "deploy": {
+      "success": "Token berjaya digunakan",
+      "invalid_status": "Token mesti dalam draf atau status menunggu kelulusan",
+      "not_found": "Token tidak dijumpai"
+    }
+  },
+  "orders": {
+    "create": {
+      "success": "Pesanan berjaya dibuat",
+      "token_unavailable": "Token tidak tersedia untuk pembelian",
+      "insufficient_supply": "Bekalan token tidak mencukupi"
+    },
+    "confirm": {
+      "success": "Pembayaran disahkan berjaya",
+      "already_completed": "Pesanan telah selesai",
+      "not_found": "Pesanan tidak dijumpai"
+    },
+    "cancel": {
+      "success": "Pesanan dibatalkan berjaya",
+      "cannot_cancel": "Tidak boleh membatalkan pesanan yang telah selesai"
+    }
+  },
+  "errors": {
+    "unauthorized": "Akses tanpa kebenaran",
+    "forbidden": "Akses dilarang",
+    "not_found": "Sumber tidak dijumpai",
+    "internal_server": "Ralat pelayan dalaman"
+  }
+}
