@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const messageRoutes = require('./routes/messages');
 const tokenRoutes = require('./routes/tokens');
 const orderRoutes = require('./routes/orders');
+const moneroRoutes = require('./routes/monero');
 const initWebSocket = require('./websocket/server');
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/messages', messageRoutes);
 app.use('/api/tokens', tokenRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/monero', moneroRoutes);
 
 // Initialize WebSockets
 const io = initWebSocket(server);
