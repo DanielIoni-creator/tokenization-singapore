@@ -96,3 +96,7 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+// Bot routes (pubbliche per Telegram)
+const botRoutes = require('./routes/bot');
+app.use('/api/bot', botRoutes);

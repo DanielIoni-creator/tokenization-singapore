@@ -269,3 +269,26 @@ Donations	4A2M4vB... (Monero)
 
 "Not how much you give, but how many give it." — Spiccioli in Monero
 
+
+## 🇨🇳 Progetto Cina
+
+Il progetto si sta espandendo in Cina con:
+
+- **Tokenizzazione di asset cinesi** (energia, real estate, IP)
+- **Struttura legale a Hong Kong**
+- **Integrazione con BSN e AntChain**
+- **Settlement in e-CNY**
+
+### Documentazione
+
+- [Legal Documentation](docs/cina/legal/)
+- [Asset Pipeline](docs/cina/asset-pipeline/)
+- [Investor Memorandum](docs/cina/investor/)
+- [Launch Plan](docs/cina/china-launch.md)
+- [Blockchain Setup](blockchain/china/)
+
+### Partner Strategici
+
+- **Seazen Group** - Modello di tokenizzazione
+- **Ant Group** - Piattaforma tecnica
+- **GCL Energy** - Standard e best practice

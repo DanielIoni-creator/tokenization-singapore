@@ -29,7 +29,8 @@
     "joi": "^18.2.3",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.8.0",
-    "morgan": "^1.11.0"
+    "morgan": "^1.11.0",
+    "node-telegram-bot-api": "^1.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
