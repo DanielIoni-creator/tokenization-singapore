@@ -1,0 +1,24 @@
+{"_e":"root:init","_t":1785170115198,"format":"v0-jsonl","version":"57.0.10"}
+{"_e":"env:mode","_t":1785170115198,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1785170115201,"mode":"development","files":["../../../.env"],"env":{"API_URL":"http://localhost:3000/api","ENABLE_BIOMETRIC":"true","ENABLE_OFFLINE_MODE":"true","ENABLE_PUSH_NOTIFICATIONS":"true","FIREBASE_APP_ID":"your-app-id","FIREBASE_SENDER_ID":"your-sender-id","MONERO_RPC_URL":"http://localhost:18081","WS_URL":"ws://localhost:3000"}}
+{"_e":"devserver:start","_t":1785170115374,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../../../app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1785170115693,"serverRoot":"../../..","projectRoot":"../../..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1785170116119,"plugins":[]}
+{"_e":"metro:server_log","_t":1785170119232,"level":"error","data":["An unknown error occurred while installing React Native DevTools. Details:\n\n/root/tokenization-singapore/mobile/node_modules/@react-native/debugger-shell/bin/react-native-devtools: error while loading shared libraries: libgtk-3.so.0: cannot open shared object file: No such file or directory\n"]}
+{"_e":"metro:instantiate","_t":1785170120170,"atlas":false,"workers":3,"host":"::","port":8081}
+{"_e":"root:init","_t":1785170642177,"format":"v0-jsonl","version":"57.0.10"}
+{"_e":"env:mode","_t":1785170642179,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1785170642186,"mode":"development","files":["../../../.env"],"env":{"API_URL":"http://localhost:3000/api","ENABLE_BIOMETRIC":"true","ENABLE_OFFLINE_MODE":"true","ENABLE_PUSH_NOTIFICATIONS":"true","FIREBASE_APP_ID":"your-app-id","FIREBASE_SENDER_ID":"your-sender-id","MONERO_RPC_URL":"http://localhost:18081","WS_URL":"ws://localhost:3000"}}
+{"_e":"devserver:start","_t":1785170642725,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../../../app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1785170643464,"serverRoot":"../../..","projectRoot":"../../..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:server_log","_t":1785170643802,"level":"error","data":["An unknown error occurred while installing React Native DevTools. Details:\n\n/root/tokenization-singapore/mobile/node_modules/@react-native/debugger-shell/bin/react-native-devtools: error while loading shared libraries: libgtk-3.so.0: cannot open shared object file: No such file or directory\n"]}
+{"_e":"expo:dev-tools-plugin:load","_t":1785170644170,"plugins":[]}
+{"_e":"metro:instantiate","_t":1785170648861,"atlas":false,"workers":3,"host":"::","port":8081}
+{"_e":"root:init","_t":1785170695349,"format":"v0-jsonl","version":"57.0.10"}
+{"_e":"env:mode","_t":1785170695350,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1785170695354,"mode":"development","files":["../../../.env"],"env":{"API_URL":"http://localhost:3000/api","ENABLE_BIOMETRIC":"true","ENABLE_OFFLINE_MODE":"true","ENABLE_PUSH_NOTIFICATIONS":"true","FIREBASE_APP_ID":"your-app-id","FIREBASE_SENDER_ID":"your-sender-id","MONERO_RPC_URL":"http://localhost:18081","WS_URL":"ws://localhost:3000"}}
+{"_e":"devserver:start","_t":1785170695553,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../../../app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1785170695889,"serverRoot":"../../..","projectRoot":"../../..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:server_log","_t":1785170696459,"level":"error","data":["An unknown error occurred while installing React Native DevTools. Details:\n\n[0727/184456.229211:FATAL:electron/shell/app/electron_main_delegate.cc:313] Running as root without --no-sandbox is not supported. See https://crbug.com/638180.\n"]}
+{"_e":"expo:dev-tools-plugin:load","_t":1785170696472,"plugins":[]}
+{"_e":"metro:instantiate","_t":1785170700283,"atlas":false,"workers":3,"host":"::","port":8081}

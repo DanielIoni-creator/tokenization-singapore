@@ -1,107 +1,30 @@
 // controllers/authController.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
 
 // ===== REGISTER =====
-exports.register = async (req, res, next) => {
+exports.register = async (req, res) => {
   try {
-    const { username, email, password, fullName } = req.body;
-    const t = req.t;
+    const { email, password, username, fullName } = req.body;
 
-    // Check existing user
-    const existingUser = await User.findOne({ 
-      $or: [{ email }, { username }] 
-    });
-
+    // Check if user exists
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
-      const messageKey = existingUser.email === email ? 
-        'auth.register.email_exists' : 
-        'auth.register.username_exists';
       return res.status(409).json({
         success: false,
-        message: t(messageKey)
-      });
-    }
-
-    // Validate password strength
-    if (password.length < 8) {
-      return res.status(400).json({
-        success: false,
-        message: t('auth.register.password_weak')
+        message: 'User already exists'
       });
     }
 
     // Create user
     const user = new User({
-      username,
       email,
       password,
+      username,
       fullName,
-      role: 'user',
-      isActive: true,
-      language: req.locale || 'en',
-      createdAt: new Date()
+      role: 'user'
     });
 
-    await user.save();
-
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-    );
-
-    res.status(201).json({
-      success: true,
-      message: t('auth.register.success'),
-      data: { user, token }
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ===== LOGIN =====
-exports.login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const t = req.t;
-
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        message: t('auth.login.email_required')
-      });
-    }
-
-    if (!password) {
-      return res.status(400).json({
-        success: false,
-        message: t('auth.login.password_required')
-      });
-    }
-
-    // Find user
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: t('auth.login.failure')
-      });
-    }
-
-    // Check password
-    const isPasswordValid = await user.comparePassword(password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        success: false,
-        message: t('auth.login.failure')
-      });
-    }
-
-    // Update last login
-    user.lastLogin = new Date();
     await user.save();
 
     // Generate token
@@ -111,100 +34,136 @@ exports.login = async (req, res, next) => {
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
 
-    res.json({
+    res.status(201).json({
       success: true,
-      message: t('auth.login.success'),
-      data: { user, token }
+      data: {
+        user: {
+          id: user._id,
+          email: user.email,
+          username: user.username,
+          fullName: user.fullName,
+          role: user.role
+        },
+        token
+      }
     });
   } catch (error) {
-    next(error);
+    console.error('Registration error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// ===== LOGIN =====
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
+    }
+
+    // Compare password using callback
+    user.comparePassword(password, function(err, isMatch) {
+      if (err) {
+        console.error('Error comparing passwords:', err);
+        return res.status(500).json({
+          success: false,
+          message: 'Internal server error'
+        });
+      }
+      if (!isMatch) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid credentials'
+        });
+      }
+
+      // Update last login
+      user.lastLogin = new Date();
+      user.save();
+
+      // Generate token
+      const token = jwt.sign(
+        { id: user._id, email: user.email, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      );
+
+      res.json({
+        success: true,
+        data: {
+          user: {
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            fullName: user.fullName,
+            role: user.role
+          },
+          token
+        }
+      });
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
 // ===== GET PROFILE =====
-exports.getProfile = async (req, res, next) => {
+exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id)
-      .select('-password -verificationToken -verificationExpires');
-
+    const user = await User.findById(req.user.id).select('-password');
     res.json({
       success: true,
       data: user
     });
   } catch (error) {
-    next(error);
+    console.error('Profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
 // ===== UPDATE PROFILE =====
-exports.updateProfile = async (req, res, next) => {
+exports.updateProfile = async (req, res) => {
   try {
-    const updates = req.body;
-    const userId = req.user.id;
-    const t = req.t;
+    const { fullName, username } = req.body;
+    const user = await User.findById(req.user.id);
 
-    // Campi che non possono essere modificati
-    delete updates._id;
-    delete updates.email;
-    delete updates.username;
-    delete updates.role;
-    delete updates.createdAt;
+    if (fullName) user.fullName = fullName;
+    if (username) user.username = username;
+    user.updatedAt = new Date();
 
-    // Se c'è una password, hashala
-    if (updates.password) {
-      const salt = await bcrypt.genSalt(12);
-      updates.password = await bcrypt.hash(updates.password, salt);
-    }
-
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { ...updates, updatedAt: new Date() },
-      { new: true, runValidators: true }
-    ).select('-password -verificationToken -verificationExpires');
+    await user.save();
 
     res.json({
       success: true,
-      message: t('auth.profile.updated'),
-      data: user
+      data: {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        fullName: user.fullName,
+        role: user.role
+      }
     });
   } catch (error) {
-    next(error);
-  }
-};
-
-// ===== LOGOUT =====
-exports.logout = async (req, res, next) => {
-  res.json({
-    success: true,
-    message: req.t('auth.logout.success')
-  });
-};
-
-// ===== CHANGE LANGUAGE =====
-exports.changeLanguage = async (req, res, next) => {
-  try {
-    const { language } = req.body;
-    const t = req.t;
-
-    if (!['en', 'zh', 'ms', 'ta'].includes(language)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid language'
-      });
-    }
-
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      { language },
-      { new: true }
-    );
-
-    res.json({
-      success: true,
-      message: t('auth.profile.updated'),
-      data: { user, language }
+    console.error('Update profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
     });
-  } catch (error) {
-    next(error);
   }
 };

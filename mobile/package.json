@@ -20,14 +20,16 @@
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
+    "expo": "^57.0.8",
     "react": "18.2.0",
     "react-native": "0.72.0",
     "react-native-biometrics": "^3.0.0",
     "react-native-keychain": "^8.0.0",
-    "react-native-qrcode-svg": "^6.2.0",
+    "react-native-qrcode-svg": "6.2.0",
+    "react-native-reanimated": "2.17.0",
     "react-native-safe-area-context": "^4.7.1",
     "react-native-screens": "^3.22.0",
-    "react-native-svg": "^13.10.0",
+    "react-native-svg": "13.10.0",
     "react-native-vector-icons": "^10.0.0",
     "react-redux": "^8.0.7",
     "redux-persist": "^6.0.0",
@@ -47,7 +49,8 @@
     "metro-react-native-babel-preset": "0.76.7",
     "prettier": "^2.4.1",
     "react-native-config": "^1.5.0",
-    "react-native-dotenv": "^3.4.8"
+    "react-native-dotenv": "^3.4.8",
+    "react-native-svg-transformer": "^1.0.0"
   },
   "engines": {
     "node": ">=16"

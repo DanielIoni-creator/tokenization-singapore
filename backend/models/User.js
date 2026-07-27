@@ -3,120 +3,73 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlength: 3,
-    maxlength: 30
-  },
   email: {
     type: String,
     required: true,
     unique: true,
     lowercase: true,
-    trim: true,
-    match: /^\S+@\S+\.\S+$/
+    trim: true
   },
   password: {
     type: String,
-    required: true,
-    minlength: 8
+    required: true
   },
-  fullName: { type: String, trim: true },
-  phone: { type: String },
-  country: { type: String },
-  city: { type: String },
-  bio: { type: String, maxlength: 500 },
-  isVerified: { type: Boolean, default: false },
-  verificationToken: { type: String },
-  verificationExpires: { type: Date },
-  moneroAddress: { type: String },
-  ethereumAddress: { type: String },
-  // CAMPO LANGUAGE AGGIUNTO
-  language: {
+  username: {
     type: String,
-    enum: ['en', 'zh', 'ms', 'ta'],
-    default: 'en'
+    required: true,
+    unique: true,
+    trim: true
+  },
+  fullName: {
+    type: String,
+    trim: true
   },
   role: {
     type: String,
-    enum: ['user', 'investor', 'seller', 'admin', 'superadmin'],
+    enum: ['user', 'admin', 'superadmin'],
     default: 'user'
   },
-  isAccredited: { type: Boolean, default: false },
-  accreditationDocuments: [{
-    type: { type: String },
-    url: { type: String },
-    verified: { type: Boolean, default: false }
-  }],
-  stats: {
-    totalInvestments: { type: Number, default: 0 },
-    totalSpent: { type: Number, default: 0 },
-    totalReturns: { type: Number, default: 0 },
-    portfolio: [{
-      tokenId: { type: mongoose.Schema.Types.ObjectId, ref: 'Token' },
-      amount: { type: Number },
-      averagePrice: { type: Number },
-      currentValue: { type: Number },
-      returns: { type: Number }
-    }]
+  isVerified: {
+    type: Boolean,
+    default: false
   },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  lastLogin: { type: Date },
-  isActive: { type: Boolean, default: true },
-  deletedAt: { type: Date }
-}, {
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  moneroAddress: {
+    type: String
+  },
+  lastLogin: {
+    type: Date
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-// Virtual
-userSchema.virtual('isInvestor').get(function() {
-  return this.role === 'investor' || this.role === 'admin' || this.role === 'superadmin';
-});
-
-// Pre-save middleware - Hash password (versione corretta)
+// Hash password before saving
 userSchema.pre('save', function(next) {
   const user = this;
+  if (!user.isModified('password')) return next();
   
-  if (!user.isModified('password')) {
-    return next();
-  }
-  
-  bcrypt.genSalt(12, function(err, salt) {
-    if (err) {
-      return next(err);
-    }
-    
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) return next(err);
     bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       user.password = hash;
       next();
     });
   });
 });
 
-// Methods
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  try {
-    return await bcrypt.compare(candidatePassword, this.password);
-  } catch (error) {
-    throw error;
-  }
-};
-
-userSchema.methods.toJSON = function() {
-  const obj = this.toObject();
-  delete obj.password;
-  delete obj.verificationToken;
-  delete obj.verificationExpires;
-  return obj;
+// Compare password method - VERSIONE CORRETTA
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) return callback(err);
+    callback(null, isMatch);
+  });
 };
 
 module.exports = mongoose.model('User', userSchema);
