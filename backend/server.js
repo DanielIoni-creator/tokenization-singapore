@@ -5,98 +5,92 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
-
-// Import routes
-const authRoutes = require('./routes/auth');
-const tokenRoutes = require('./routes/tokens');
-const orderRoutes = require('./routes/orders');
-const userRoutes = require('./routes/users');
-const adminRoutes = require('./routes/admin');
-
-// Import middleware
-const { errorHandler } = require('./middleware/error');
-const { authenticate } = require('./middleware/auth');
-const i18nMiddleware = require('./middleware/i18n');
+const http = require('http');
 
 const app = express();
+const server = http.createServer(app);
 
 // ===== MIDDLEWARE =====
-
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:"],
-    },
-  },
-}));
-
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
-
+app.use(helmet());
+app.use(cors());
 app.use(compression());
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// i18n Middleware
-app.use(i18nMiddleware.middleware());
-
-app.use((req, res, next) => {
-  res.locals.t = req.t;
-  res.locals.locale = req.locale;
-  next();
-});
-
 // ===== DATABASE =====
-
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tokenization-singapore';
-
-mongoose.connect(MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/myzubster', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 .then(() => console.log('✅ MongoDB connected'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+.catch(err => console.error('❌ MongoDB error:', err));
 
 // ===== ROUTES =====
 
-// Public routes
+// Health check
 app.get('/health', (req, res) => {
   res.json({
-    status: 'ok',
+    status: 'OK',
+    message: 'MyZubster Gateway is running!',
     timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    environment: process.env.NODE_ENV,
     version: '1.0.0'
   });
 });
 
-// API routes
+// Auth routes
+const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
-app.use('/api/tokens', authenticate, tokenRoutes);
-app.use('/api/orders', authenticate, orderRoutes);
-app.use('/api/users', authenticate, userRoutes);
-app.use('/api/admin', authenticate, adminRoutes);
+
+// Token routes
+const tokenRoutes = require('./routes/tokens');
+app.use('/api/tokens', tokenRoutes);
+
+// Order routes
+const orderRoutes = require('./routes/orders');
+app.use('/api/orders', orderRoutes);
+
+// Admin routes
+const adminRoutes = require('./routes/admin');
+app.use('/api/admin', adminRoutes);
+
+// Monero routes
+const moneroRoutes = require('./routes/monero');
+app.use('/api/monero', moneroRoutes);
+
+// User routes
+const userRoutes = require('./routes/users');
+app.use('/api/users', userRoutes);
+
+// Bot routes (pubbliche per Telegram)
+const botRoutes = require('./routes/bot');
+app.use('/api/bot', botRoutes);
+
+// Message routes (P2P Messaging)
+const messageRoutes = require('./routes/messages');
+app.use('/api/messages', messageRoutes);
+
+// ===== WEBSOCKET SERVER =====
+const WebSocketServer = require('./websocket/server');
+const ws = new WebSocketServer(server);
+app.set('websocket', ws);
+console.log('✅ WebSocket server initialized');
 
 // ===== ERROR HANDLER =====
-
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+  console.error('❌ Error:', err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal server error'
+  });
+});
 
 // ===== START SERVER =====
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
-module.exports = app;
-
-// Bot routes (pubbliche per Telegram)
-const botRoutes = require('./routes/bot');
-app.use('/api/bot', botRoutes);
+module.exports = { app, server };
