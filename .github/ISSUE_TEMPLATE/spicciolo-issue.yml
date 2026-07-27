@@ -1,0 +1,17 @@
+name: "💰 Spicciolo Issue (XMR Bounty)"
+description: "Fix this in 15 minutes and earn Monero"
+title: "[SPICCIO] Brief description of the problem"
+labels: ["💰 spicciolo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💰 This issue pays in Monero (XMR)
+        **Reward:** 0.0005 XMR (≈ €0.10)
+  - type: input
+    id: problem
+    attributes:
+      label: "📌 The Problem"
+      description: "Describe the issue in 1 sentence"
+    validations:
+      required: true

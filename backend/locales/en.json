@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "login": {
+      "success": "Login successful",
+      "failure": "Invalid email or password",
+      "email_required": "Email is required",
+      "password_required": "Password is required"
+    },
+    "register": {
+      "success": "Registration successful",
+      "email_exists": "Email already registered",
+      "username_exists": "Username already taken",
+      "password_weak": "Password must be at least 8 characters"
+    }
+  },
+  "tokens": {
+    "create": {
+      "success": "Token created successfully",
+      "symbol_exists": "Token symbol already exists",
+      "admin_only": "Only administrators can create tokens"
+    },
+    "deploy": {
+      "success": "Token deployed successfully",
+      "invalid_status": "Token must be in draft or pending-approval status",
+      "not_found": "Token not found"
+    }
+  },
+  "orders": {
+    "create": {
+      "success": "Order created successfully",
+      "token_unavailable": "Token is not available for purchase",
+      "insufficient_supply": "Insufficient token supply available"
+    },
+    "confirm": {
+      "success": "Payment confirmed successfully",
+      "already_completed": "Order already completed",
+      "not_found": "Order not found"
+    },
+    "cancel": {
+      "success": "Order cancelled successfully",
+      "cannot_cancel": "Cannot cancel a completed order"
+    }
+  },
+  "errors": {
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "not_found": "Resource not found",
+    "internal_server": "Internal server error"
+  }
+}
