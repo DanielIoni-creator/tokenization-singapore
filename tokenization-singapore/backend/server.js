@@ -81,6 +81,8 @@ app.use('/api/tokens', authenticate, tokenRoutes);
 app.use('/api/orders', authenticate, orderRoutes);
 app.use('/api/users', authenticate, userRoutes);
 app.use('/api/admin', authenticate, adminRoutes);
+const messageRoutes = require('./routes/messages');
+app.use('/api/messages', authenticate, messageRoutes);
 
 // ===== ERROR HANDLER =====
 
@@ -88,11 +90,17 @@ app.use(errorHandler);
 
 // ===== START SERVER =====
 
+const http = require('http');
+const server = http.createServer(app);
+const initWebSocket = require('./websocket/server');
+initWebSocket(server);
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 module.exports = app;
+
