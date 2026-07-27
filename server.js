@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const messageRoutes = require('./routes/messages');
+const tokenRoutes = require('./routes/tokens');
 const initWebSocket = require('./websocket/server');
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // API Routes
 app.use('/api/messages', messageRoutes);
+app.use('/api/tokens', tokenRoutes);
 
 // Initialize WebSockets
 const io = initWebSocket(server);
