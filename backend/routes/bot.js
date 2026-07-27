@@ -1,4 +1,3 @@
-// routes/bot.js
 const express = require('express');
 const router = express.Router();
 const Token = require('../models/Token');
@@ -11,7 +10,7 @@ router.get('/tokens', async (req, res) => {
     const tokens = await Token.find({ status: 'active' })
       .select('name symbol tokenPrice totalSupply status propertyDetails')
       .lean();
-    
+
     res.json({
       success: true,
       data: tokens
@@ -30,31 +29,31 @@ router.get('/stats', async (req, res) => {
   try {
     const totalTokens = await Token.countDocuments();
     const activeTokens = await Token.countDocuments({ status: 'active' });
-    
+
     const supplyResult = await Token.aggregate([
       { $group: { _id: null, total: { $sum: '$totalSupply' } } }
     ]);
     const totalSupply = supplyResult.length > 0 ? supplyResult[0].total : 0;
-    
+
     const totalInvestors = await User.countDocuments({ role: 'investor' });
     const totalOrders = await Order.countDocuments();
     const completedOrders = await Order.countDocuments({ status: 'completed' });
-    const pendingOrders = await Order.countDocuments({ 
-      status: { $in: ['pending', 'awaiting-payment'] } 
+    const pendingOrders = await Order.countDocuments({
+      status: { $in: ['pending', 'awaiting-payment'] }
     });
-    
+
     const revenueResult = await Order.aggregate([
       { $match: { status: 'completed' } },
       { $group: { _id: null, total: { $sum: '$totalPrice' } } }
     ]);
     const totalRevenue = revenueResult.length > 0 ? revenueResult[0].total : 0;
-    
+
     const raisedResult = await Order.aggregate([
       { $match: { status: { $in: ['completed', 'processing'] } } },
       { $group: { _id: null, total: { $sum: '$totalPrice' } } }
     ]);
     const totalRaised = raisedResult.length > 0 ? raisedResult[0].total : 0;
-    
+
     res.json({
       success: true,
       data: {
@@ -83,25 +82,24 @@ router.get('/stats', async (req, res) => {
 router.get('/price/:symbol', async (req, res) => {
   try {
     const { symbol } = req.params;
-    
-    const token = await Token.findOne({ 
+
+    const token = await Token.findOne({
       symbol: symbol.toUpperCase(),
-      status: 'active' 
+      status: 'active'
     }).lean();
-    
+
     if (!token) {
       return res.status(404).json({
         success: false,
         message: 'Token non trovato'
       });
     }
-    
-    // Calcola statistiche aggiuntive
+
     const orders = await Order.find({ tokenId: token._id, status: 'completed' });
     const totalSold = orders.reduce((sum, o) => sum + o.amount, 0);
     const remainingTokens = token.totalSupply - totalSold;
     const percentRaised = token.totalSupply > 0 ? ((totalSold / token.totalSupply) * 100).toFixed(1) : 0;
-    
+
     res.json({
       success: true,
       data: {
