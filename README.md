@@ -1,3 +1,5 @@
+# 🏢 Tokenization Platform for Singapore Real Estate
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
 [![Monero](https://img.shields.io/badge/Payments-Monero-orange)](https://www.getmonero.org/)
@@ -207,65 +209,37 @@ How Payments Work
 
 The SingaporeRealEstateToken contract is an ERC-20 token with additional features:
 
-    Whitelist: Only accredited investors can buy tokens
 
-    Automatic Price: Fixed price per token (1000 SGD)
 
-    Rent Distribution: SPV can distribute rental income to token holders
+## 🚀 Quick Start
 
-    Pausable: Owner can pause transactions in case of emergency
+### Prerequisites
 
-Contract Address
+- **Node.js:** v18.x or higher
+- **MongoDB:** v5.0 or higher (running locally or via Atlas)
+- **Monero RPC:** A running Monero wallet RPC (or mock it for development)
+- **Ethereum Node:** Infura or Alchemy endpoint (for Sepolia testnet)
 
-Sepolia Testnet: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e
-solidity
+### Installation & Setup
 
-// Quick overview
-contract SingaporeRealEstateToken is ERC20, Ownable, Pausable, ReentrancyGuard {
-    uint256 public constant TOKEN_PRICE = 1000 * 10**18; // 1 token = 1000 SGD
-    uint256 public maxSupply;
-    address public spvAddress;
-    mapping(address => bool) public accreditedInvestors;
-    
-    function buyTokens(uint256 amount) external payable whenNotPaused onlyAccredited;
-    function distributeRent() external onlySPV;
-    function whitelistInvestor(address investor) external onlyOwner;
-}
+```bash
+# 1. Clone the repository
+git clone https://github.com/DanielIoni-creator/tokenization-singapore.git
+cd tokenization-singapore
 
-🗺️ Roadmap
-Status	Feature	Description
-✅	Core API & Models	Complete Node.js/Express API
-✅	Smart Contract	ERC-20 with whitelist and rent distribution
-✅	Monero Integration	Subaddresses, payment verification
-✅	Admin Dashboard	Real-time statistics
-✅	JWT Authentication	Secure role-based access
-✅	i18n Support	Multi-language API responses
-🔄	Swagger Documentation	OpenAPI integration
-🔄	Docker Containerization	One-command deployment
-📋	PGP Encryption	Encrypted order data
-📋	Webhook System	Real-time event notifications
-📋	Mobile App	React Native for iOS/Android
-🤝 Contributing
+# 2. Install backend dependencies
+cd backend
+npm install
 
-We welcome contributions! Please check the open issues for bounties and tasks.
-Bounty Program
+# 3. Configure environment
+cp .env.example .env
+nano .env  # Edit with your MongoDB URI, Ethereum RPC URL, and Monero RPC URL
 
-We offer Monero (XMR) bounties for contributions:
-Type	Bounty (XMR)	Value (€)
-Typo/Link Fix	0.0005 XMR	€0.10
-Warning/Comment	0.001 XMR	€0.20
-Test/README	0.003 XMR	€0.60
-Bug Fix	0.005-0.01 XMR	€1.00-2.00
-Feature	0.01-0.05 XMR	€2.00-10.00
-How to Contribute
+# 4. Create admin user
+node scripts/createAdmin.js
 
-    Check open issues for available tasks
-
-    Fork the repository
-
-    Create a new branch (git checkout -b feature/amazing-feature)
-
-    Commit your changes (git commit -m 'Add some amazing feature')
+# 5. Start the server
+npm run dev    your changes (git commit -m 'Add some amazing feature')
 
     Push to the branch (git push origin feature/amazing-feature)
 
