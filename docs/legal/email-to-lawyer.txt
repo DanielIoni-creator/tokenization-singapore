@@ -1,0 +1,76 @@
+Oggetto: Richiesta Consulenza Legale - Tokenizzazione Asset Cinesi con Struttura Hong Kong
+
+Gentile Studio Legale,
+
+Mi presento, sono Daniel Ioni, fondatore di MyZubster, un progetto di tokenizzazione di asset reali con focus su Singapore e Cina.
+
+Sto sviluppando un progetto per tokenizzare un asset energetico in Cina (Shanghai Solar Energy Project, 50 MW) attraverso una struttura regolamentata a Hong Kong.
+
+## Il Progetto in Sintesi
+
+- **Asset**: Shanghai Solar Energy Project (50 MW, valore 50M RMB)
+- **Struttura**: SPV a Hong Kong (MyZubster Digital Assets Ltd)
+- **Token**: SSET (Shanghai Solar Energy Token) su BSN
+- **Pagamenti**: Monero + e-CNY
+- **Investitori**: Professional Investors (SFC definition)
+
+## Documentazione Allegata
+
+1. SPV Structure Document
+2. Legal Clauses for SPV
+3. Smart Contract (ChinaRealEstateToken.sol)
+4. BSN Integration Plan
+5. e-CNY Integration Plan
+6. Investor Onboarding Process
+7. DeFi Integration Plan
+
+## Domande Specifiche
+
+1. **Struttura Legale**
+   - La SPV a Hong Kong è la struttura ottimale?
+   - Servono licenze SFC (Type 1, Type 9)?
+   - Quale regime fiscale si applica?
+
+2. **Conformità Cinese**
+   - La tokenizzazione di un asset in Cina è legale se l'emissione è da HK?
+   - Quali approvazioni governative sono necessarie?
+
+3. **e-CNY**
+   - L'integrazione con e-CNY è possibile per un'emissione da HK?
+   - Quali sono i requisiti normativi?
+
+4. **Investitori**
+   - Quali sono i requisiti KYC/AML?
+   - Come gestire investitori internazionali?
+
+5. **Timeline e Costi**
+   - Timeline stimata per approvazione
+   - Costi stimati (legali, licenze, etc.)
+
+## Contatti
+
+**Daniel Ioni**
+Email: danieldirimini@gmail.com
+Telefono: +39 375 680 6600
+GitHub: DanielIoni-creator
+
+## Link Utili
+
+- GitHub Repository: https://github.com/DanielIoni-creator/tokenization-singapore
+- Progetto: https://github.com/DanielIoni-creator/tokenization-singapore/blob/main/README.md
+
+Resto a disposizione per un incontro di approfondimento.
+
+Cordiali saluti,
+Daniel Ioni
+
+---
+
+Allegati:
+- [ ] SPV Structure Document
+- [ ] Legal Clauses
+- [ ] Smart Contract
+- [ ] BSN Integration Plan
+- [ ] e-CNY Integration Plan
+- [ ] Investor Onboarding Process
+- [ ] DeFi Integration Plan
