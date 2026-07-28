@@ -1,0 +1,8 @@
+{
+  "welcome": "Selamat datang ke Tokenisasi Singapura",
+  "order_created": "Pesanan berjaya dibuat",
+  "order_not_found": "Pesanan tidak dijumpai",
+  "payment_confirmed": "Pembayaran berjaya disahkan",
+  "unauthorized": "Capaian tidak dibenarkan",
+  "server_error": "Ralat dalaman pelayan"
+}

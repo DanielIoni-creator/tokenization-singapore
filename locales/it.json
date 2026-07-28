@@ -1,0 +1,8 @@
+{
+  "welcome": "Benvenuto in Tokenization Singapore",
+  "order_created": "Ordine creato con successo",
+  "order_not_found": "Ordine non trovato",
+  "payment_confirmed": "Pagamento confermato con successo",
+  "unauthorized": "Accesso non autorizzato",
+  "server_error": "Errore interno del server"
+}
