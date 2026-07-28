@@ -1,4 +1,3 @@
-// models/User.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -49,27 +48,23 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hash password before saving
-userSchema.pre('save', function(next) {
+// Hash password before saving - versione async/await
+userSchema.pre('save', async function(next) {
   const user = this;
   if (!user.isModified('password')) return next();
   
-  bcrypt.genSalt(10, function(err, salt) {
-    if (err) return next(err);
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) return next(err);
-      user.password = hash;
-      next();
-    });
-  });
+  try {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Compare password method - VERSIONE CORRETTA
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) return callback(err);
-    callback(null, isMatch);
-  });
+// Compare password method - versione async/await
+userSchema.methods.comparePassword = async function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

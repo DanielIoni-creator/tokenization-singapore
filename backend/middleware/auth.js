@@ -14,17 +14,17 @@ const authenticate = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Cerca l'utente con isActive true
-    const user = await User.findOne({ 
+
+    // Cerca l'utente con isVerified true (invece di isActive)
+    const user = await User.findOne({
       _id: decoded.id,
-      isActive: true 
+      isVerified: true
     });
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'User not found or inactive'
+        message: 'User not found or not verified'
       });
     }
 
