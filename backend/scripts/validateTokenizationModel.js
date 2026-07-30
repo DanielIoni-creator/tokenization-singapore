@@ -4,6 +4,13 @@ const {
   calculateFractionalization,
   verifyRegistryEvidence
 } = require('../services/tokenizationService');
+const {
+  buildAcraRequestUrl,
+  isValidUen,
+  lookupAcraEntity,
+  normalizeUen,
+  verifyLegalIdentity
+} = require('../services/acraService');
 
 const sampleToken = buildRealEstateTokenModel({
   name: 'Marina Bay Fractional Tower',
@@ -63,6 +70,14 @@ const verification = verifyRegistryEvidence(sampleToken.registry, {
 });
 
 assert.equal(verification.verificationStatus, 'verified');
+assert.equal(normalizeUen(' 2024-00001a '), '202400001A');
+assert.equal(isValidUen('202400001A'), true);
+assert.equal(
+  buildAcraRequestUrl('202400001A', {
+    ACRA_API_URL_TEMPLATE: 'https://example.test/entities/{uen}'
+  }),
+  'https://example.test/entities/202400001A'
+);
 
 assert.throws(() => buildRealEstateTokenModel({
   ...sampleToken,
@@ -75,4 +90,38 @@ assert.throws(() => buildRealEstateTokenModel({
   }
 }), /6-digit postal code/);
 
-console.log('Singapore real-estate tokenization validation passed');
+(async () => {
+  const acraEntity = await lookupAcraEntity({
+    uen: '202400001A',
+    record: {
+      uen: '202400001A',
+      entity_name: 'MBFT Holdings Pte. Ltd.',
+      entity_status: 'LIVE COMPANY',
+      entity_type: 'Private Company Limited by Shares',
+      registration_date: '2024-01-02',
+      postal_code: '018983',
+      registered_address: '10 Marina Boulevard, Singapore 018983'
+    }
+  });
+
+  const identityVerification = verifyLegalIdentity({
+    expectedUen: '202400001A',
+    expectedName: 'MBFT Holdings Pte. Ltd.',
+    entity: acraEntity
+  });
+
+  assert.equal(acraEntity.fingerprint.length, 64);
+  assert.equal(identityVerification.verificationStatus, 'verified');
+
+  const rejectedVerification = verifyLegalIdentity({
+    expectedUen: '202400001A',
+    expectedName: 'Different SPV Pte. Ltd.',
+    entity: acraEntity
+  });
+
+  assert.equal(rejectedVerification.verificationStatus, 'rejected');
+  console.log('Singapore real-estate tokenization validation passed');
+})().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

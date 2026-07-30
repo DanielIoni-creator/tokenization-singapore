@@ -43,6 +43,10 @@ app.use('/api/auth', authRoutes);
 const tokenRoutes = require('./routes/tokens');
 app.use('/api/tokens', tokenRoutes);
 
+// ACRA legal identity routes
+const acraRoutes = require('./routes/acra');
+app.use('/api/acra', acraRoutes);
+
 // Order routes
 const orderRoutes = require('./routes/orders');
 app.use('/api/orders', orderRoutes);

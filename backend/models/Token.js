@@ -104,7 +104,28 @@ const tokenSchema = new mongoose.Schema({
     registration: String,
     uen: String,
     entityType: String,
-    address: String
+    address: String,
+    acra: {
+      entityName: String,
+      entityStatus: String,
+      entityType: String,
+      registrationDate: String,
+      postalCode: String,
+      registeredAddress: String,
+      source: String,
+      sourceUrl: String,
+      fingerprint: {
+        type: String,
+        index: true
+      },
+      verificationStatus: {
+        type: String,
+        enum: ['pending-verification', 'verified', 'rejected', 'manual-review'],
+        default: 'pending-verification'
+      },
+      checkedAt: Date,
+      reason: String
+    }
   },
   compliance: {
     jurisdiction: { type: String, default: 'Singapore' },

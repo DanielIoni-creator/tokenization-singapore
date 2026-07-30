@@ -1,79 +1,115 @@
-# 🏢 Tokenization Platform for Singapore Real Estate
+# 🏢 Tokenization Singapore
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
-[![Monero](https://img.shields.io/badge/Payments-Monero-orange)](https://www.getmonero.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-5.x-brightgreen)](https://www.mongodb.com/)
-[![Ethereum](https://img.shields.io/badge/Ethereum-Sepolia-blue)](https://ethereum.org/)
+**Real estate and asset tokenization platform for the Singapore market, powered by Monero and MyZubster.**
 
-> **Tokenize prime Singapore real estate with Monero payments.**
+[![License](https://img.shields.io/github/license/DanielIoni-creator/tokenization-singapore)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/DanielIoni-creator/tokenization-singapore)](https://github.com/DanielIoni-creator/tokenization-singapore/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/DanielIoni-creator/tokenization-singapore)](https://github.com/DanielIoni-creator/tokenization-singapore/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/DanielIoni-creator/tokenization-singapore)](https://github.com/DanielIoni-creator/tokenization-singapore/commits/master)
 
----
-
-## 💬 Real-Time P2P Investor Messaging System (Socket.io)
-
-This repository includes a real-time peer-to-peer messaging system for investors and platform admins built with Express, Socket.io, JWT Authentication, and MongoDB.
-
-### Key Features
-- **Direct 1-on-1 Messaging:** Real-time Socket.io message transport.
-- **Order Context Integration:** Messages attached to specific order IDs.
-- **Typing Indicators & Read Receipts:** Real-time `typing` and `mark-read` events.
-- **JWT Security:** All REST endpoints and WebSocket connections authenticated via JWT tokens.
-
-### API Endpoints
-- `GET /api/messages/conversations` - Get all active conversations.
-- `GET /api/messages/conversation/:userId` - Get message history with a user.
-- `POST /api/messages/send` - Send a message via REST API.
-- `PUT /api/messages/read` - Mark messages as read.
-- `GET /api/messages/unread` - Get unread count badge.
-- `DELETE /api/messages/:id` - Delete message (admin/user).
+> **Part of the [MyZubster ecosystem](https://github.com/MyZubster-Ecosystem)**
 
 ---
 
-## 🚀 Overview
+## 🌏 What is Tokenization Singapore?
 
-This platform enables the tokenization of real estate assets in Singapore, allowing for fractional ownership and investment. It combines a **Node.js/Express backend**, **MongoDB** for data persistence, **Ethereum smart contracts** (ERC-20) for token management, and **Monero (XMR)** for private, borderless payments.
+Tokenization Singapore is a specialized module of the MyZubster ecosystem designed for the **legal tokenization of real estate and other assets** in compliance with Singapore regulations.
 
-### Key Features
+It integrates with:
+- **ACRA** (Accounting and Corporate Regulatory Authority) for UEN validation.
+- **data.gov.sg** for official business lookups.
+- **Monero (XMR)** for privacy-first payments.
+- **SPV (Special Purpose Vehicle)** for legal identity verification.
 
-- ✅ **Token Management:** Create and manage ERC-20 tokens representing real estate assets
-- ✅ **On-Chain Deploy:** Deploy smart contracts directly from the admin panel
-- ✅ **Monero Payments:** Generate unique subaddresses per order for private transactions
-- ✅ **Order Lifecycle:** Track orders from creation to completion with status updates
-- ✅ **Admin Dashboard:** Real-time stats and management of tokens, orders, and users
-- ✅ **Multi-Language:** API responses available in multiple languages (i18n)
-- ✅ **JWT Authentication:** Secure, role-based access control (Admin, Investor, User)
-- ✅ **Privacy First:** No KYC required, anonymous contributions
+---
 
-## 💳 Monero Payout Address
-`0.07 XMR Payout Address:` `0x88760d23C8ddA58B8001e9A1101EB3dca65e4EbA`
+## 🧱 Architecture
 
-## Singapore Real Estate Tokenization
+The platform is built as a modular Node.js backend with the following components:
 
-The backend includes an admin workflow for modeling Singapore real-estate tokens:
+| Component | Description |
+|-----------|-------------|
+| **ACRA Service** | UEN validation and company lookup via ACRA/data.gov.sg APIs. |
+| **SPV Verification** | Legal identity verification for tokenized assets. |
+| **Token Registry** | On-chain and off-chain management of tokenized assets. |
+| **Admin API** | Manage tokenization requests, verify users, and monitor activity. |
+| **Security Audit** | Comprehensive security review and best practices. |
 
-- `POST /api/tokens/fractionalize` previews token price, ownership per token, issuer reserve, investor supply, and minimum token allocation.
-- `POST /api/tokens/real-estate` creates a token with Singapore property details, SLA/INLIS registry reference data, fractionalization fields, SPV UEN metadata, and compliance restrictions.
-- `POST /api/tokens/:id/registry/verify` checks official registry evidence against the stored deterministic registry fingerprint and updates the token verification status.
+---
 
-Detailed usage and sample payloads are available in [docs/singapore-real-estate-tokenization.md](docs/singapore-real-estate-tokenization.md).
+## 🚀 Features
 
+- ✅ **UEN Normalization & Validation** – verify Singapore business entities.
+- ✅ **ACRA/data.gov.sg Lookup Adapter** – fetch official company data.
+- ✅ **SPV Legal‑Identity Verification** – comply with Singapore regulations.
+- ✅ **Token Registry Linkage** – connect legal entities to tokenized assets.
+- ✅ **Admin API Endpoints** – manage and monitor tokenization.
+- ✅ **Security Audit Report** – documented in `docs/SECURITY_AUDIT.md`.
+- ✅ **Investor Dashboard** – view tokenized assets and verification status.
 
-## 💬 Community
+---
 
-- **Telegram**: [@MyZubster_bot](https://t.me/MyZubster_bot) – for updates, support, and discussions.
+## 📦 Installation
 
+### Prerequisites
+- Node.js v18+
+- npm v9+
+- MongoDB (for data persistence)
+- Monero wallet (for payment processing)
 
-## 🌐 Connect with Us
+### Steps
 
-- **Telegram**: [@MyZubster_bot](https://t.me/MyZubster_bot) – updates, support, and discussions
-- **Twitter / X**: [@DanielIoni](https://twitter.com/DanielIoni) – project announcements and thoughts
-- **TikTok**: [@danielioni](https://tiktok.com/@danielioni) – behind the scenes and project updates
-- **Instagram**: [@danielioni](https://instagram.com/danielioni) – visuals and community stories
-- **dev.to**: [Daniel Ioni](https://dev.to/danielioni) – technical articles and project updates
+```bash
+# Clone the repository
+git clone https://github.com/DanielIoni-creator/tokenization-singapore
+cd tokenization-singapore
 
+# Install dependencies
+npm install
 
-## 💬 Community
+# Configure environment
+cp .env.example .env
+nano .env
 
-- **Telegram Channel**: [@myzubster](https://t.me/myzubster) – follow for updates, news, and discussions about the MyZubster ecosystem.
-# test webhook dopo unarchive
+# Start the server
+npm start
+🔗 Integration with MyZubster
+
+This module is part of the larger MyZubster ecosystem. It communicates with:
+
+    MyZubsterGateway – for Monero payments and transaction monitoring.
+
+    MyZubster-Marketplace – for listing tokenized assets.
+
+    MyZubsterWeb – for user-facing dashboards.
+
+🤝 How to Contribute
+
+We welcome contributions! Check out the open issues and the roadmap:
+
+    Issues: https://github.com/DanielIoni-creator/tokenization-singapore/issues
+
+    Roadmap: https://github.com/users/DanielIoni-creator/projects/1
+
+How to Contribute
+
+    Fork the repository.
+
+    Create a new branch for your feature or fix.
+
+    Submit a pull request with a clear description of your changes.
+
+📜 License
+
+This project is released under the MIT License – free for everyone to use, modify, and distribute.
+🌐 Ecosystem Hub
+
+MyZubster Ecosystem: https://github.com/MyZubster-Ecosystem
+Related Repositories
+Repository	Description
+MyZubsterGateway	Monero payment engine, webhooks, monitoring
+MyZubster-Marketplace	Platform for services and skills
+MyZubsterWeb	Web interface for the marketplace
+myzubster-docs	Documentation hub
+
+Maintained by Daniel Ioni and the MyZubster community.

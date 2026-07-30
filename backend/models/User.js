@@ -1,42 +1,40 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
-    trim: true
+    trim: true,
+    lowercase: true
   },
   password: {
     type: String,
     required: true
   },
-  username: {
+  name: {
     type: String,
-    required: true,
-    unique: true,
-    trim: true
-  },
-  fullName: {
-    type: String,
-    trim: true
+    required: true
   },
   role: {
     type: String,
-    enum: ['user', 'admin', 'superadmin'],
+    enum: ['user', 'admin', 'verifier'],
     default: 'user'
   },
-  isVerified: {
+  // ACRA integration fields (from commit 1b256345)
+  uen: {
+    type: String,
+    trim: true,
+    index: true,
+    sparse: true
+  },
+  acraVerified: {
     type: Boolean,
     default: false
   },
-  moneroAddress: {
-    type: String
-  },
-  lastLogin: {
-    type: Date
+  acraData: {
+    type: mongoose.Schema.Types.Mixed,
+    default: null
   },
   createdAt: {
     type: Date,
@@ -48,23 +46,4 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hash password before saving - versione async/await
-userSchema.pre('save', async function(next) {
-  const user = this;
-  if (!user.isModified('password')) return next();
-  
-  try {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Compare password method - versione async/await
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', UserSchema);
