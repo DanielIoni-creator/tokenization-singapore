@@ -34,6 +34,27 @@ const userSchema = new mongoose.Schema({
   verificationExpires: { type: Date },
   moneroAddress: { type: String },
   ethereumAddress: { type: String },
+  legalIdentity: {
+    authProvider: {
+      type: String,
+      enum: ['none', 'acra'],
+      default: 'none'
+    },
+    uen: { type: String },
+    entityName: { type: String },
+    entityStatus: { type: String },
+    entityType: { type: String },
+    verificationStatus: {
+      type: String,
+      enum: ['pending-verification', 'verified', 'rejected'],
+      default: 'pending-verification'
+    },
+    verifiedAt: { type: Date },
+    source: { type: String },
+    sourceUrl: { type: String },
+    fingerprint: { type: String },
+    reason: { type: String }
+  },
   // CAMPO LANGUAGE AGGIUNTO
   language: {
     type: String,

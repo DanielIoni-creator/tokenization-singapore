@@ -57,3 +57,13 @@ The backend includes an admin workflow for modeling Singapore real-estate tokens
 - `POST /api/tokens/:id/registry/verify` checks official registry evidence against the stored deterministic registry fingerprint and updates the token verification status.
 
 Detailed usage and sample payloads are available in [docs/singapore-real-estate-tokenization.md](docs/singapore-real-estate-tokenization.md).
+
+## ACRA Legal Identity Integration
+
+The backend now includes ACRA/UEN verification for Singapore legal entities:
+
+- `POST /api/acra/lookup` normalizes ACRA evidence or queries a configured API adapter.
+- `POST /api/acra/tokens/:id/verify-spv` verifies a token SPV against ACRA entity data and stores the result under `token.spv.acra`.
+- `POST /api/acra/auth/verify-entity` binds an authenticated user account to a verified Singapore legal entity.
+
+Production API calls can be enabled with `ACRA_API_URL_TEMPLATE`, while tests and legal review can pass official evidence records directly. See [docs/acra-integration.md](docs/acra-integration.md).
