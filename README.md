@@ -47,3 +47,33 @@ This platform enables the tokenization of real estate assets in Singapore, allow
 
 ## 💳 Monero Payout Address
 `0.07 XMR Payout Address:` `0x88760d23C8ddA58B8001e9A1101EB3dca65e4EbA`
+
+## Singapore Real Estate Tokenization
+
+The backend includes an admin workflow for modeling Singapore real-estate tokens:
+
+- `POST /api/tokens/fractionalize` previews token price, ownership per token, issuer reserve, investor supply, and minimum token allocation.
+- `POST /api/tokens/real-estate` creates a token with Singapore property details, SLA/INLIS registry reference data, fractionalization fields, SPV UEN metadata, and compliance restrictions.
+- `POST /api/tokens/:id/registry/verify` checks official registry evidence against the stored deterministic registry fingerprint and updates the token verification status.
+
+Detailed usage and sample payloads are available in [docs/singapore-real-estate-tokenization.md](docs/singapore-real-estate-tokenization.md).
+
+
+## 💬 Community
+
+- **Telegram**: [@MyZubster_bot](https://t.me/MyZubster_bot) – for updates, support, and discussions.
+
+
+## 🌐 Connect with Us
+
+- **Telegram**: [@MyZubster_bot](https://t.me/MyZubster_bot) – updates, support, and discussions
+- **Twitter / X**: [@DanielIoni](https://twitter.com/DanielIoni) – project announcements and thoughts
+- **TikTok**: [@danielioni](https://tiktok.com/@danielioni) – behind the scenes and project updates
+- **Instagram**: [@danielioni](https://instagram.com/danielioni) – visuals and community stories
+- **dev.to**: [Daniel Ioni](https://dev.to/danielioni) – technical articles and project updates
+
+
+## 💬 Community
+
+- **Telegram Channel**: [@myzubster](https://t.me/myzubster) – follow for updates, news, and discussions about the MyZubster ecosystem.
+# test webhook dopo unarchive
