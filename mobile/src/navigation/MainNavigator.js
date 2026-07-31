@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
+import SingaporeDashboardScreen from '../screens/SingaporeDashboardScreen';
 import TokenListScreen from '../screens/TokenListScreen';
 import PortfolioScreen from '../screens/PortfolioScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -18,6 +19,8 @@ const MainNavigator = () => {
           let iconName;
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Dashboard') {
+            iconName = focused ? 'analytics' : 'analytics-outline';
           } else if (route.name === 'Tokens') {
             iconName = focused ? 'list' : 'list-outline';
           } else if (route.name === 'Portfolio') {
@@ -41,6 +44,7 @@ const MainNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Dashboard" component={SingaporeDashboardScreen} />
       <Tab.Screen name="Tokens" component={TokenListScreen} />
       <Tab.Screen name="Portfolio" component={PortfolioScreen} />
       <Tab.Screen name="Orders" component={OrderHistoryScreen} />
