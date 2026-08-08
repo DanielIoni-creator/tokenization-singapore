@@ -5,7 +5,7 @@
 - **Data:** 2026-08-08
 - **Parti:** Daniel Ioni (committente) - SmartMenu9872 (sviluppatore)
 - **Milestone:** M2 - Frontend e Mappa Interattiva
-- **Compenso:** 0.06 XMR
+- **Compenso:** [AMOUNT] MYZ
 
 ## 🎯 Ambito del Lavoro
 Implementazione della dashboard con:
@@ -23,9 +23,9 @@ Implementazione della dashboard con:
 - [ ] Design responsive
 
 ## 💰 Pagamento
-- **Compenso totale:** 0.06 XMR
-- **Anticipo:** 0.03 XMR (alla firma)
-- **Saldo:** 0.03 XMR (al completamento)
+- **Compenso totale:** [AMOUNT] MYZ
+- **Anticipo:** [AMOUNT] MYZ (alla firma)
+- **Saldo:** [AMOUNT] MYZ (al completamento)
 - **Wallet committente:** [DA INSERIRE]
 - **Wallet sviluppatore:** [DA INSERIRE]
 

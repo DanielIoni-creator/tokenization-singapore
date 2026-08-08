@@ -5,7 +5,7 @@
 - **Data:** 2026-08-08
 - **Parti:** Daniel Ioni (committente) - krysto9872 (sviluppatore)
 - **Milestone:** M1 - Firmware e Sensori
-- **Compenso:** 0.08 XMR
+- **Compenso:** [AMOUNT] MYZ
 
 ## 🎯 Ambito del Lavoro
 Sviluppo firmware per:
@@ -22,9 +22,9 @@ Sviluppo firmware per:
 - [ ] Test di calibrazione
 
 ## 💰 Pagamento
-- **Compenso totale:** 0.08 XMR
-- **Anticipo:** 0.04 XMR (alla firma)
-- **Saldo:** 0.04 XMR (al completamento)
+- **Compenso totale:** [AMOUNT] MYZ
+- **Anticipo:** [AMOUNT] MYZ (alla firma)
+- **Saldo:** [AMOUNT] MYZ (al completamento)
 - **Wallet committente:** [DA INSERIRE]
 - **Wallet sviluppatore:** [DA INSERIRE]
 

@@ -5,7 +5,7 @@
 - **Data:** [DATA]
 - **Parti:** Daniel Ioni (committente) - [NOME_DEVELOPER] (sviluppatore)
 - **Milestone:** [M1/M2]
-- **Compenso:** [AMOUNT] XMR
+- **Compenso:** [AMOUNT] MYZ
 
 ## 🎯 Ambito del Lavoro
 [DESCRIZIONE DETTAGLIATA DELLE ATTIVITÀ]
@@ -16,9 +16,9 @@
 - [ ] [Deliverable 3]
 
 ## 💰 Pagamento
-- **Compenso totale:** [AMOUNT] XMR
-- **Anticipo:** [ADVANCE] XMR (alla firma)
-- **Saldo:** [BALANCE] XMR (al completamento)
+- **Compenso totale:** [AMOUNT] MYZ
+- **Anticipo:** [ADVANCE] MYZ (alla firma)
+- **Saldo:** [BALANCE] MYZ (al completamento)
 - **Wallet committente:** [COMMITTER_WALLET]
 - **Wallet sviluppatore:** [DEV_WALLET]
 
@@ -40,7 +40,7 @@
 1. **Riservatezza:** Tutti i dati e il codice rimangono di proprietà del committente
 2. **Proprietà Intellettuale:** Il codice prodotto diventa proprietà del committente al pagamento
 3. **Scadenze:** Ogni giorno di ritardo comporta una riduzione del 5% del compenso
-4. **Pagamento:** Solo in XMR, eseguito su transazione on-chain confermata
+4. **Pagamento:** Solo in MYZ, eseguito su transazione on-chain confermata
 
 ## 🖊️ Firma
 - **Committente:** _________________ (Daniel Ioni)
@@ -49,4 +49,4 @@
 
 ---
 
-*Il presente contratto è vincolante dopo la firma di entrambe le parti e la conferma on-chain dell'anticipo.*
+*Il presente contratto è vincolante dopo la firma di entrambe le parti e la conferma on-chain dell'anticipo in MYZ.*
