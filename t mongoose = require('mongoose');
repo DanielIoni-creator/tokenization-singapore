@@ -1,0 +1,922 @@
+[1mdiff --cc backend/models/User.js[m
+[1mindex 9a69d5e5,fa857185..00000000[m
+[1m--- a/backend/models/User.js[m
+[1m+++ b/backend/models/User.js[m
+[36m@@@ -11,17 -21,45 +11,53 @@@[m [mconst userSchema = new mongoose.Schema([m
+    },[m
+    password: {[m
+      type: String,[m
+[31m -    required: true,[m
+[31m -    minlength: 8[m
+[32m +    required: true[m
+    },[m
+[32m++<<<<<<< HEAD[m
+[32m +  username: {[m
+[32m++=======[m
+[32m+   fullName: { type: String, trim: true },[m
+[32m+   phone: { type: String },[m
+[32m+   country: { type: String },[m
+[32m+   city: { type: String },[m
+[32m+   bio: { type: String, maxlength: 500 },[m
+[32m+   isVerified: { type: Boolean, default: false },[m
+[32m+   verificationToken: { type: String },[m
+[32m+   verificationExpires: { type: Date },[m
+[32m+   moneroAddress: { type: String },[m
+[32m+   ethereumAddress: { type: String },[m
+[32m+   legalIdentity: {[m
+[32m+     authProvider: {[m
+[32m+       type: String,[m
+[32m+       enum: ['none', 'acra'],[m
+[32m+       default: 'none'[m
+[32m+     },[m
+[32m+     uen: { type: String },[m
+[32m+     entityName: { type: String },[m
+[32m+     entityStatus: { type: String },[m
+[32m+     entityType: { type: String },[m
+[32m+     verificationStatus: {[m
+[32m+       type: String,[m
+[32m+       enum: ['pending-verification', 'verified', 'rejected'],[m
+[32m+       default: 'pending-verification'[m
+[32m+     },[m
+[32m+     verifiedAt: { type: Date },[m
+[32m+     source: { type: String },[m
+[32m+     sourceUrl: { type: String },[m
+[32m+     fingerprint: { type: String },[m
+[32m+     reason: { type: String }[m
+[32m+   },[m
+[32m+   // CAMPO LANGUAGE AGGIUNTO[m
+[32m+   language: {[m
+[32m++>>>>>>> fix/i18n-support[m
+[32m +    type: String,[m
+[32m +    required: true,[m
+[32m +    unique: true,[m
+[32m +    trim: true[m
+[32m +  },[m
+[32m +  fullName: {[m
+      type: String,[m
+[31m -    enum: ['en', 'zh', 'ms', 'ta'],[m
+[31m -    default: 'en'[m
+[32m +    trim: true[m
+    },[m
+    role: {[m
+      type: String,[m
+[1mdiff --cc backend/package.json[m
+[1mindex efc39544,d839e6a8..00000000[m
+[1m--- a/backend/package.json[m
+[1m+++ b/backend/package.json[m
+[36m@@@ -1,42 -1,41 +1,86 @@@[m
+[32m++<<<<<<< HEAD[m
+[32m +{[m
+[32m +  "name": "tokenization-singapore-backend",[m
+[32m +  "version": "1.0.0",[m
+[32m +  "description": "API per tokenizzazione di asset a Singapore",[m
+[32m +  "main": "server.js",[m
+[32m +  "scripts": {[m
+[32m +    "start": "node server.js",[m
+[32m +    "dev": "nodemon server.js",[m
+[32m +    "test": "jest",[m
+[32m +    "deploy": "node contracts/scripts/deploy.js"[m
+[32m +  },[m
+[32m +  "keywords": [[m
+[32m +    "tokenization",[m
+[32m +    "real-estate",[m
+[32m +    "singapore",[m
+[32m +    "blockchain"[m
+[32m +  ],[m
+[32m +  "author": "Daniel Ioni",[m
+[32m +  "license": "MIT",[m
+[32m +  "dependencies": {[m
+[32m +    "axios": "^1.18.1",[m
+[32m +    "bcrypt": "^6.0.0",[m
+[32m +    "bcryptjs": "^3.0.3",[m
+[32m +    "compression": "^1.8.1",[m
+[32m +    "cors": "^2.8.6",[m
+[32m +    "dotenv": "^17.4.2",[m
+[32m +    "ethers": "^6.17.0",[m
+[32m +    "express": "^5.2.1",[m
+[32m +    "helmet": "^8.3.0",[m
+[32m +    "joi": "^18.2.3",[m
+[32m +    "jsonwebtoken": "^9.0.3",[m
+[32m +    "mongoose": "^9.8.0",[m
+[32m +    "morgan": "^1.11.0",[m
+[32m +    "node-telegram-bot-api": "^1.2.0",[m
+[32m +    "nodemailer": "^6.9.0",[m
+[32m +    "socket.io": "^4.8.3",[m
+[32m +    "socket.io-client": "^4.8.3"[m
+[32m +  },[m
+[32m +  "devDependencies": {[m
+[32m +    "nodemon": "^3.1.14"[m
+[32m +  }[m
+[32m +}[m
+[32m++=======[m
+[32m+ {[m
+[32m+   "name": "tokenization-singapore-backend",[m
+[32m+   "version": "1.0.0",[m
+[32m+   "description": "API per tokenizzazione di asset a Singapore",[m
+[32m+   "main": "server.js",[m
+[32m+   "scripts": {[m
+[32m+     "start": "node server.js",[m
+[32m+     "dev": "nodemon server.js",[m
+[32m+     "test": "node scripts/validateTokenizationModel.js",[m
+[32m+     "validate:tokenization": "node scripts/validateTokenizationModel.js",[m
+[32m+     "deploy": "node contracts/scripts/deploy.js"[m
+[32m+   },[m
+[32m+   "keywords": [[m
+[32m+     "tokenization",[m
+[32m+     "real-estate",[m
+[32m+     "singapore",[m
+[32m+     "blockchain"[m
+[32m+   ],[m
+[32m+   "author": "Daniel Ioni",[m
+[32m+   "license": "MIT",[m
+[32m+   "dependencies": {[m
+[32m+     "axios": "^1.18.1",[m
+[32m+     "bcryptjs": "^3.0.3",[m
+[32m+     "compression": "^1.8.1",[m
+[32m+     "cors": "^2.8.6",[m
+[32m+     "dotenv": "^17.4.2",[m
+[32m+     "ethers": "^6.17.0",[m
+[32m+     "express": "^5.2.1",[m
+[32m+     "helmet": "^8.3.0",[m
+[32m+     "joi": "^18.2.3",[m
+[32m+     "jsonwebtoken": "^9.0.3",[m
+[32m+     "mongoose": "^9.8.0",[m
+[32m+     "morgan": "^1.11.0",[m
+[32m+     "node-telegram-bot-api": "^1.2.0",[m
+[32m+     "socket.io": "^4.8.3",[m
+[32m+     "socket.io-client": "^4.8.3"[m
+[32m+   },[m
+[32m+   "devDependencies": {[m
+[32m+     "nodemon": "^3.1.14"[m
+[32m+   }[m
+[32m+ }[m
+[32m++>>>>>>> fix/i18n-support[m
+[1mdiff --cc docs/TOKENIZATION-DOCS.md[m
+[1mindex b0b18e02,6f961c4b..00000000[m
+[1m--- a/docs/TOKENIZATION-DOCS.md[m
+[1m+++ b/docs/TOKENIZATION-DOCS.md[m
+[36m@@@ -1,10 -1,751 +1,764 @@@[m
+[32m++<<<<<<< HEAD[m
+[32m +# Singapore Real Estate Tokenization Guide[m
+[32m +# Solves Issue #23 (0.05 XMR Bounty)[m
+[32m +[m
+[32m +This guide explains how Singapore real estate properties are fractionalized and tokenized on-chain.[m
+[32m +[m
+[32m +## Tokenization Process[m
+[32m +1. **Property Appraisal:** Verification of property valuation in SGD/USD.[m
+[32m +2. **SPV Formation:** Special Purpose Vehicle legal structure registration in Singapore.[m
+[32m +3. **Smart Contract Deployment:** Minting ERC-20 compliant property tokens.[m
+[32m +4. **Investor Onboarding:** KYC/AML verification and Monero (XMR) subscription payment.[m
+[32m++=======[m
+[32m+ # Tokenization System Documentation[m
+[32m+ [m
+[32m+ Comprehensive documentation for the Singapore real-estate tokenization platform, covering smart contract, backend API, and mobile integration.[m
+[32m+ [m
+[32m+ **Issue:** #23 — Documentazione per la Tokenizzazione[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## Table of Contents[m
+[32m+ [m
+[32m+ 1. [Architecture Overview](#1-architecture-overview)[m
+[32m+ 2. [Developer Guide — Smart Contract](#2-developer-guide--smart-contract)[m
+[32m+ 3. [Developer Guide — Backend API](#3-developer-guide--backend-api)[m
+[32m+ 4. [Developer Guide — WebSocket](#4-developer-guide--websocket)[m
+[32m+ 5. [User Guide — How to Tokenize Assets](#5-user-guide--how-to-tokenize-assets)[m
+[32m+ 6. [Usage Examples](#6-usage-examples)[m
+[32m+ 7. [Environment Configuration](#7-environment-configuration)[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 1. Architecture Overview[m
+[32m+ [m
+[32m+ ```[m
+[32m+                    +-------------------+[m
+[32m+                    |   Mobile Client   |[m
+[32m+   (React Native)   |  api.js / axios   |[m
+[32m+                    +---------+---------+[m
+[32m+                              |[m
+[32m+                     REST / WebSocket[m
+[32m+                              |[m
+[32m+               +--------------+--------------+[m
+[32m+               |       Express server         |[m
+[32m+               |   (backend/server.js)       |[m
+[32m+               +----+------+-------+---------+[m
+[32m+                    |      |       |[m
+[32m+               +----+   +--+--+   +-------+[m
+[32m+               |Auth | |Tokens| |Messages|[m
+[32m+               |     | |      | |  +WS    |[m
+[32m+               +-----+ +------+ +--------+[m
+[32m+                    |[m
+[32m+               +----+----+[m
+[32m+               | MongoDB |[m
+[32m+               +---------+[m
+[32m+                    |[m
+[32m+               +----+----+[m
+[32m+               |Contract |[m
+[32m+               | (Solidity)|[m
+[32m+               +---------+[m
+[32m+ ```[m
+[32m+ [m
+[32m+ **Components:**[m
+[32m+ [m
+[32m+ - **Smart Contract** (`AssetTokenization.sol`): ERC-20 compatible fractional-ownership token with governance, deployed on EVM-compatible chains[m
+[32m+ - **Backend API** (Express + MongoDB): REST endpoints for authentication, tokenization, ACRA verification, orders, and P2P messaging[m
+[32m+ - **WebSocket Server** (Socket.IO): real-time messaging with JWT authentication[m
+[32m+ - **Mobile Client** (React Native): consumer-facing app with Redux state management[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 2. Developer Guide — Smart Contract[m
+[32m+ [m
+[32m+ ### 2.1 Contract Overview[m
+[32m+ [m
+[32m+ `AssetTokenization.sol` is a Solidity 0.8.20 ERC-20 compatible contract that represents fractional ownership of a real-estate asset.[m
+[32m+ [m
+[32m+ **Key properties:**[m
+[32m+ [m
+[32m+ | Property | Type | Description |[m
+[32m+ |----------|------|-------------|[m
+[32m+ | `name` | string | Token name |[m
+[32m+ | `symbol` | string | Token symbol |[m
+[32m+ | `totalSupply` | uint256 (immutable) | Total token supply = `fractionCount * 10^18` |[m
+[32m+ | `issuerReserve` | uint256 (immutable) | Reserve held by deployer |[m
+[32m+ | `owner` | address | Contract admin |[m
+[32m+ | `treasury` | address | Sale treasury address |[m
+[32m+ | `assetValuation` | uint256 | Current asset valuation |[m
+[32m+ | `transfersRestricted` | bool | Global transfer restriction flag (default true) |[m
+[32m+ [m
+[32m+ ### 2.2 Constructor Parameters[m
+[32m+ [m
+[32m+ ```solidity[m
+[32m+ constructor([m
+[32m+     string memory tokenName,        // e.g. "Singapore Real Estate Token"[m
+[32m+     string memory tokenSymbol,      // e.g. "SRET"[m
+[32m+     uint256 fractionCount,          // e.g. 10000[m
+[32m+     address saleTreasury,           // treasury address for investor tokens[m
+[32m+     uint16 issuerReserveBps,        // issuer reserve in basis points (0-10000)[m
+[32m+     uint256 initialAssetValuation,  // e.g. 10000000[m
+[32m+     string memory initialCurrencyCode, // e.g. "SGD"[m
+[32m+     string memory initialAssetUri,  // metadata URI[m
+[32m+     uint256 initialVotingPeriod,    // in seconds (minimum 1 hour)[m
+[32m+     uint256 initialQuorumBps        // quorum in basis points (0-10000)[m
+[32m+ )[m
+[32m+ ```[m
+[32m+ [m
+[32m+ **Token distribution on deployment:**[m
+[32m+ - `issuerReserve = (totalSupply * issuerReserveBps) / 10000`[m
+[32m+ - Deployer receives `issuerReserve` tokens[m
+[32m+ - Treasury receives `totalSupply - issuerReserve` tokens[m
+[32m+ [m
+[32m+ ### 2.3 Core Functions[m
+[32m+ [m
+[32m+ #### Token Transfers[m
+[32m+ [m
+[32m+ | Function | Signature | Notes |[m
+[32m+ |----------|-----------|-------|[m
+[32m+ | `transfer` | `(address to, uint256 value) -> bool` | Standard ERC-20 transfer |[m
+[32m+ | `approve` | `(address spender, uint256 value) -> bool` | Sets spender allowance |[m
+[32m+ | `transferFrom` | `(address from, address to, uint256 value) -> bool` | Requires prior approval |[m
+[32m+ [m
+[32m+ **Transfer restrictions:** When `transfersRestricted` is true, either the `from` or `to` address must be in the `transferAllowed` mapping. The owner controls this via `setTransferAllowed(address account, bool allowed)` and `setTransfersRestricted(bool)`.[m
+[32m+ [m
+[32m+ **During active governance proposals**, all transfers are blocked (`require(activeProposalCount == 0)`).[m
+[32m+ [m
+[32m+ #### Token Information[m
+[32m+ [m
+[32m+ | Function | Description |[m
+[32m+ |----------|-------------|[m
+[32m+ | `tokenPrice()` | Returns `assetValuation / totalFractions` |[m
+[32m+ | `investorSupply()` | Returns `totalSupply - issuerReserve` |[m
+[32m+ | `quorumVotes()` | Returns `(totalSupply * quorumBps) / 10000` |[m
+[32m+ | `balanceOf(address)` | Returns token balance |[m
+[32m+ | `allowance(address owner, address spender)` | Returns allowance |[m
+[32m+ [m
+[32m+ #### Governance[m
+[32m+ [m
+[32m+ | Function | Signature | Required Role | Description |[m
+[32m+ |----------|-----------|---------------|-------------|[m
+[32m+ | `propose` | `(string description, bytes32 executionDataHash) -> uint256 proposalId` | Token holder (balance > 0) | Create a proposal with a voting period of `votingPeriod` seconds |[m
+[32m+ | `castVote` | `(uint256 proposalId, bool support)` | Token holder (balance > 0) | Vote for or against a proposal; weight = caller's balance |[m
+[32m+ | `executeProposal` | `(uint256 proposalId) -> bool passed` | Anyone | Execute after voting ends; passes if `forVotes > againstVotes` and total votes >= quorum |[m
+[32m+ | `cancelProposal` | `(uint256 proposalId)` | Owner or proposer | Cancel a pending proposal |[m
+[32m+ [m
+[32m+ #### Admin Functions (owner only)[m
+[32m+ [m
+[32m+ | Function | Description |[m
+[32m+ |----------|-------------|[m
+[32m+ | `setTransferAllowed(address, bool)` | Allow/deny specific address transfers |[m
+[32m+ | `setTransfersRestricted(bool)` | Toggle global transfer restriction |[m
+[32m+ | `updateTreasury(address)` | Change treasury address |[m
+[32m+ | `updateAssetValuation(uint256, string)` | Update valuation and currency |[m
+[32m+ | `updateAssetUri(string)` | Update metadata URI |[m
+[32m+ | `updateGovernanceSettings(uint256, uint256)` | Update voting period and quorum |[m
+[32m+ | `transferOwnership(address)` | Transfer contract ownership |[m
+[32m+ [m
+[32m+ ### 2.4 Events[m
+[32m+ [m
+[32m+ The contract emits standard ERC-20 events plus governance events:[m
+[32m+ [m
+[32m+ ``+Transfer, Approval, OwnershipTransferred, TreasuryUpdated,[m
+[32m+ TransferPolicyUpdated, TransferAllowedUpdated, AssetValuationUpdated,[m
+[32m+ AssetUriUpdated, ProposalCreated, VoteCast, ProposalExecuted, ProposalCanceled``[m
+[32m+ [m
+[32m+ ### 2.5 Compilation and Validation[m
+[32m+ [m
+[32m+ From `backend/contracts/`:[m
+[32m+ [m
+[32m+ ```bash[m
+[32m+ # Compile and validate the contract[m
+[32m+ node scripts/validateSmartContract.js[m
+[32m+ [m
+[32m+ # Deploy (requires environment configuration)[m
+[32m+ # See Environment Configuration section[m
+[32m+ npm run deploy[m
+[32m+ ```[m
+[32m+ [m
+[32m+ The `validateSmartContract.js` script verifies:[m
+[32m+ - The contract compiles without Solidity errors[m
+[32m+ - Bytecode is non-empty[m
+[32m+ - The ABI exposes all required function names[m
+[32m+ - The ABI exposes all required event names[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 3. Developer Guide — Backend API[m
+[32m+ [m
+[32m+ ### 3.1 Base URL[m
+[32m+ [m
+[32m+ ```[m
+[32m+ http://localhost:3000/api    (development)[m
+[32m+ https://api.example.com/api   (production)[m
+[32m+ ```[m
+[32m+ [m
+[32m+ All endpoints return JSON with `{ success, data, message }` or `{ success, errors, message }` structure.[m
+[32m+ [m
+[32m+ ### 3.2 Authentication[m
+[32m+ [m
+[32m+ Authentication uses JWT bearer tokens. Include the token in the `Authorization` header:[m
+[32m+ [m
+[32m+ ```[m
+[32m+ Authorization: Bearer <token>[m
+[32m+ ```[m
+[32m+ [m
+[32m+ Tokens are signed with `JWT_SECRET` and expire after `JWT_EXPIRES_IN` (default 7 days). The JWT payload contains `{ id, email, role }`.[m
+[32m+ [m
+[32m+ ### 3.3 API Endpoints[m
+[32m+ [m
+[32m+ #### Authentication (`/api/auth`)[m
+[32m+ [m
+[32m+ | Method | Path | Auth | Description |[m
+[32m+ |--------|------|------|-------------|[m
+[32m+ | POST | `/api/auth/register` | None | Create a new user account |[m
+[32m+ | POST | `/api/auth/login` | None | Authenticate and receive JWT |[m
+[32m+ | GET | `/api/auth/profile` | Bearer | Get current user profile |[m
+[32m+ | PUT | `/api/auth/profile` | Bearer | Update profile fields |[m
+[32m+ | POST | `/api/auth/logout` | Bearer | Client-side logout (stateless JWT) |[m
+[32m+ | PUT | `/api/auth/language` | Bearer | Change preferred language |[m
+[32m+ [m
+[32m+ **Register:**[m
+[32m+ ```json[m
+[32m+ Request:[m
+[32m+ POST /api/auth/register[m
+[32m+ {[m
+[32m+   "username": "alice",[m
+[32m+   "email": "alice@example.com",[m
+[32m+   "password": "securepassword",[m
+[32m+   "fullName": "Alice Lee"[m
+[32m+ }[m
+[32m+ [m
+[32m+ Response:[m
+[32m+ {[m
+[32m+   "success": true,[m
+[32m+   "message": "User registered successfully",[m
+[32m+   "data": { "user": { ... }, "token": "eyJhbGc..." }[m
+[32m+ }[m
+[32m+ ```[m
+[32m+ [m
+[32m+ **Login:**[m
+[32m+ ```json[m
+[32m+ Request:[m
+[32m+ POST /api/auth/login[m
+[32m+ {[m
+[32m+   "email": "alice@example.com",[m
+[32m+   "password": "securepassword"[m
+[32m+ }[m
+[32m+ [m
+[32m+ Response:[m
+[32m+ {[m
+[32m+   "success": true,[m
+[32m+   "message": "Login successful",[m
+[32m+   "data": { "user": { ... }, "token": "eyJhbGc..." }[m
+[32m+ }[m
+[32m+ ```[m
+[32m+ [m
+[32m+ **User Roles:**[m
+[32m+ - `user`: default role[m
+[32m+ - `investor`: can invest in tokens[m
+[32m+ - `seller`: can list assets[m
+[32m+ - `admin`: administrative access[m
+[32m+ - `superadmin`: highest access level[m
+[32m+ [m
+[32m+ #### Tokenization (`/api/tokens`)[m
+[32m+ [m
+[32m+ | Method | Path | Auth | Description |[m
+[32m+ |--------|------|------|-------------|[m
+[32m+ | GET | `/api/tokens` | Bearer | List all tokens |[m
+[32m+ | GET | `/api/tokens/:id` | Bearer | Get a specific token |[m
+[32m+ | POST | `/api/tokens/preview-fractionalization` | Bearer | Preview tokenization math |[m
+[32m+ | POST | `/api/tokens/real-estate` | Bearer | Create a real-estate tokenization |[m
+[32m+ | POST | `/api/tokens/:id/verify-registry` | Bearer | Verify Singapore land registry evidence |[m
+[32m+ [m
+[32m+ **Create Real Estate Tokenization:**[m
+[32m+ ```json[m
+[32m+ Request:[m
+[32m+ POST /api/tokens/real-estate[m
+[32m+ Authorization: Bearer <token>[m
+[32m+ {[m
+[32m+   "name": "Orchard Tower A",[m
+[32m+   "symbol": "OTA",[m
+[32m+   "totalSupply": 10000,[m
+[32m+   "status": "draft",[m
+[32m+   "propertyDetails": {[m
+[32m+     "address": {[m
+[32m+       "street": "1 Orchard Road",[m
+[32m+       "postalCode": "238873",[m
+[32m+       "city": "Singapore",[m
+[32m+       "country": "Singapore"[m
+[32m+     },[m
+[32m+     "propertyType": "commercial",[m
+[32m+     "valuation": 5000000,[m
+[32m+     "valuationCurrency": "SGD"[m
+[32m+   },[m
+[32m+   "registry": {[m
+[32m+     "authority": "SLA_INLIS",[m
+[32m+     "titleNumber": "T12345"[m
+[32m+   },[m
+[32m+   "fractionalization": {[m
+[32m+     "totalShares": 10000,[m
+[32m+     "tokenDecimals": 18,[m
+[32m+     "currency": "SGD",[m
+[32m+     "issuerReservePercent": 10,[m
+[32m+     "minimumInvestment": 1000[m
+[32m+   },[m
+[32m+   "compliance": {[m
+[32m+     "jurisdiction": "Singapore",[m
+[32m+     "offeringType": "private-placement",[m
+[32m+     "requiresAccreditedInvestor": true[m
+[32m+   }[m
+[32m+ }[m
+[32m+ [m
+[32m+ Response:[m
+[32m+ {[m
+[32m+   "success": true,[m
+[32m+   "message": "Token created successfully",[m
+[32m+   "data": { "_id": "...", "name": "Orchard Tower A", ... },[m
+[32m+   "tokenization": {[m
+[32m+     "totalShares": 10000,[m
+[32m+     "tokenPrice": 500,[m
+[32m+     "ownershipPerTokenPercent": 0.01,[m
+[32m+     "investorAvailableTokens": 9000,[m
+[32m+     "investorAvailableRaise": 4500000,[m
+[32m+     "minimumTokens": 2,[m
+[32m+     "distributionStatus": "modeling"[m
+[32m+   }[m
+[32m+ }[m
+[32m+ ```[m
+[32m+ [m
+[32m+ **Validation:** All tokenization endpoints use Joi schemas with `stripUnknown: true` to prevent unexpected fields. A valid Singapore postal code is 6 digits (`^\d{6}$`). Registry fingerprints must be 64 hex characters.[m
+[32m+ [m
+[32m+ #### ACRA Legal Identity (`/api/acra`)[m
+[32m+ [m
+[32m+ | Method | Path | Auth | Description |[m
+[32m+ |--------|------|------|-------------|[m
+[32m+ | POST | `/api/acra/lookup` | Bearer | Look up a Singapore entity by UEN |[m
+[32m+ | POST | `/api/acra/tokens/:id/verify-spv` | Bearer | Verify a token's SPV entity against ACRA |[m
+[32m+ | POST | `/api/acra/verify-entity` | Bearer | Verify and attach legal identity to current user |[m
+[32m+ [m
+[32m+ **Verify Entity (User):**[m
+[32m+ ```json[m
+[32m+ Request:[m
+[32m+ POST /api/acra/verify-entity[m
+[32m+ Authorization: Bearer <token>[m
+[32m+ {[m
+[32m+   "uen": "202100001A",[m
+[32m+   "entityName": "My Company Pte Ltd",[m
+[32m+   "record": { }[m
+[32m+ }[m
+[32m+ [m
+[32m+ Response:[m
+[32m+ {[m
+[32m+   "success": true,[m
+[32m+   "data": {[m
+[32m+     "user": { ... },[m
+[32m+     "verification": {[m
+[32m+       "verificationStatus": "verified",[m
+[32m+       "entity": { "uen": "202100001A", "entityName": "My Company Pte Ltd", ... }[m
+[32m+     }[m
+[32m+   }[m
+[32m+ }[m
+[32m+ ```[m
+[32m+ [m
+[32m+ #### Orders (`/api/orders`)[m
+[32m+ [m
+[32m+ | Method | Path | Auth | Description |[m
+[32m+ |--------|------|------|-------------|[m
+[32m+ | GET | `/api/orders` | Bearer | Get current user's orders |[m
+[32m+ | GET | `/api/orders/:id` | Bearer | Get a specific order |[m
+[32m+ [m
+[32m+ Orders support payment methods: `monero`, `ethereum`, `bank-transfer`. Payment status: `pending`, `processing`, `completed`, `failed`, `refunded`.[m
+[32m+ [m
+[32m+ #### Messages (`/api/messages`)[m
+[32m+ [m
+[32m+ | Method | Path | Auth | Description |[m
+[32m+ |--------|------|------|-------------|[m
+[32m+ | GET | `/api/messages/conversations` | Bearer | List all conversations |[m
+[32m+ | GET | `/api/messages/conversation/:userId?limit=50&before=ISO_DATE` | Bearer | Get messages with another user |[m
+[32m+ | POST | `/api/messages/send` | Bearer | Send a message |[m
+[32m+ | PUT | `/api/messages/read` | Bearer | Mark messages as read |[m
+[32m+ | GET | `/api/messages/unread` | Bearer | Get unread count |[m
+[32m+ [m
+[32m+ **Send Message:**[m
+[32m+ ```json[m
+[32m+ Request:[m
+[32m+ POST /api/messages/send[m
+[32m+ Authorization: Bearer <token>[m
+[32m+ {[m
+[32m+   "recipientId": "60f1234567890abcdef12345",[m
+[32m+   "content": "Hello, interested in your token",[m
+[32m+   "type": "text"[m
+[32m+ }[m
+[32m+ [m
+[32m+ Response:[m
+[32m+ {[m
+[32m+   "success": true,[m
+[32m+   "data": {[m
+[32m+     "sender": { "username": "alice", "fullName": "Alice Lee" },[m
+[32m+     "recipient": { "username": "bob", "fullName": "Bob Tan" },[m
+[32m+     "content": "Hello, interested in your token",[m
+[32m+     "type": "text",[m
+[32m+     "status": "sent",[m
+[32m+     "createdAt": "2026-07-31T..."[m
+[32m+   }[m
+[32m+ }[m
+[32m+ ```[m
+[32m+ [m
+[32m+ #### Admin (`/api/admin`)[m
+[32m+ [m
+[32m+ Requires admin or superadmin role. Uses the `isAdmin` and `isSuperAdmin` middleware from `backend/middleware/auth.js`.[m
+[32m+ [m
+[32m+ #### Monero (`/api/monero`)[m
+[32m+ [m
+[32m+ Provides wallet status, balance, address, subaddress generation, transaction history, and payment verification endpoints.[m
+[32m+ [m
+[32m+ ### 3.4 Response Format[m
+[32m+ [m
+[32m+ All API responses follow a consistent structure:[m
+[32m+ [m
+[32m+ ```json[m
+[32m+ // Success[m
+[32m+ { "success": true, "data": { ... }, "message": "..." }[m
+[32m+ [m
+[32m+ // Error[m
+[32m+ { "success": false, "message": "Error description" }[m
+[32m+ [m
+[32m+ // Validation error[m
+[32m+ { "success": false, "message": "Validation failed", "errors": ["field error details"] }[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 3.5 Authentication Middleware[m
+[32m+ [m
+[32m+ The backend uses `backend/middleware/auth.js` which exports:[m
+[32m+ [m
+[32m+ - `authenticate`: Verifies JWT, loads user from DB, checks `isActive`, attaches `req.user`[m
+[32m+ - `isAdmin`: Requires `role === 'admin'` or `role === 'superadmin'`[m
+[32m+ - `isSuperAdmin`: Requires `role === 'superadmin'`[m
+[32m+ - `isAccredited`: Requires `isAccredited === true`[m
+[32m+ [m
+[32m+ ### 3.6 Internationalization (i18n)[m
+[32m+ [m
+[32m+ The backend supports four languages: `en`, `zh`, `ms`, `ta`. Language is determined in order:[m
+[32m+ 1. User's saved `language` field[m
+[32m+ 2. `Accept-Language` header[m
+[32m+ 3. `?lang=` query parameter[m
+[32m+ [m
+[32m+ Translation keys use dot notation: `auth.login.success`, `tokens.create.symbol_exists`, etc.[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 4. Developer Guide — WebSocket[m
+[32m+ [m
+[32m+ ### 4.1 Connection[m
+[32m+ [m
+[32m+ The WebSocket server uses Socket.IO and runs on the same port as the HTTP server.[m
+[32m+ [m
+[32m+ ```[m
+[32m+ ws://localhost:3000      (development)[m
+[32m+ wss://api.example.com    (production)[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 4.2 Authentication[m
+[32m+ [m
+[32m+ Clients authenticate during the handshake:[m
+[32m+ [m
+[32m+ ```js[m
+[32m+ const socket = io("ws://localhost:3000", {[m
+[32m+   auth: { token: "eyJhbGc..." }[m
+[32m+ });[m
+[32m+ ```[m
+[32m+ [m
+[32m+ The server verifies the JWT. If the token is invalid, the connection is rejected.[m
+[32m+ [m
+[32m+ ### 4.3 Events[m
+[32m+ [m
+[32m+ | Direction | Event | Payload | Description |[m
+[32m+ |-----------|-------|---------|-------------|[m
+[32m+ | Client -> Server | `send-message` | `{ recipientId, content, orderId, attachments }` | Send a message |[m
+[32m+ | Client -> Server | `typing` | `{ recipientId }` | Typing indicator |[m
+[32m+ | Client -> Server | `mark-read` | `{ senderId }` | Mark messages as read |[m
+[32m+ | Server -> Client | `new-message` | `Message` object | New message received |[m
+[32m+ | Server -> Client | `message-sent` | `Message` object | Message send confirmation |[m
+[32m+ | Server -> Client | `user-typing` | `{ senderId }` | Typing indicator |[m
+[32m+ | Server -> Client | `messages-read` | `{ readBy }` | Messages marked as read |[m
+[32m+ | Server -> Client | `error` | `{ message }` | Error event |[m
+[32m+ [m
+[32m+ ### 4.4 Rooms[m
+[32m+ [m
+[32m+ Each user is automatically joined to a room named after their user ID (`socket.join(userId)`). Messages are emitted to the recipient's room.[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 5. User Guide — How to Tokenize Assets[m
+[32m+ [m
+[32m+ ### 5.1 Register an Account[m
+[32m+ [m
+[32m+ 1. Open the mobile app or use the API[m
+[32m+ 2. Provide a username, email, and password (minimum 8 characters)[m
+[32m+ 3. Verify your email (if verification is enabled)[m
+[32m+ 4. Log in to receive your JWT token[m
+[32m+ [m
+[32m+ ### 5.2 Verify Your Legal Identity (ACRA)[m
+[32m+ [m
+[32m+ For institutional tokenization (SPV-backed):[m
+[32m+ [m
+[32m+ 1. Look up your Singapore entity by UEN[m
+[32m+ 2. Submit the entity for ACRA verification[m
+[32m+ 3. Once verified, your `legalIdentity` will include the entity name, status, and verification fingerprint[m
+[32m+ [m
+[32m+ ### 5.3 Create a Tokenization Proposal[m
+[32m+ [m
+[32m+ 1. Provide the property address (Singapore postal code must be 6 digits)[m
+[32m+ 2. Set the property type (residential, commercial, mixed, industrial)[m
+[32m+ 3. Enter the valuation and currency (default SGD)[m
+[32m+ 4. Configure fractionalization (total shares, decimals, issuer reserve)[m
+[32m+ 5. Add registry evidence (title number, lot number, or strata lot number)[m
+[32m+ 6. Set compliance requirements (offering type, accredited investor requirement)[m
+[32m+ 7. Preview the fractionalization math to confirm the pricing[m
+[32m+ 8. Submit the tokenization — a `Token` document is created in the database[m
+[32m+ [m
+[32m+ ### 5.4 Verify Registry Evidence[m
+[32m+ [m
+[32m+ 1. Generate a registry fingerprint (SHA-256 hash of the evidence)[m
+[32m+ 2. Submit the fingerprint via the verify-registry endpoint[m
+[32m+ 3. The system compares the submitted fingerprint with the stored evidence[m
+[32m+ 4. Verification status updates to `verified`, `rejected`, or `expired`[m
+[32m+ [m
+[32m+ ### 5.5 Manage Tokens[m
+[32m+ [m
+[32m+ Once a token is active:[m
+[32m+ - Investors can view the token details and prices[m
+[32m+ - The admin can update the asset valuation[m
+[32m+ - Token holders interact with the smart contract for transfers and governance[m
+[32m+ - The admin can pause or close the offering[m
+[32m+ [m
+[32m+ ### 5.6 Voting on Proposals[m
+[32m+ [m
+[32m+ If the smart contract has been deployed:[m
+[32m+ 1. A token holder calls `propose()` with a description and a hash of the intended execution data[m
+[32m+ 2. Other holders `castVote()` during the voting period (weight = their balance)[m
+[32m+ 3. After the voting period, anyone calls `executeProposal()`[m
+[32m+ 4. The proposal passes if `forVotes > againstVotes` AND total votes >= quorum[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 6. Usage Examples[m
+[32m+ [m
+[32m+ ### 6.1 Register and Get Token[m
+[32m+ [m
+[32m+ ```bash[m
+[32m+ # Register[m
+[32m+ curl -X POST http://localhost:3000/api/auth/register \[m
+[32m+   -H "Content-Type: application/json" \[m
+[32m+   -d '{"username":"alice","email":"alice@example.com","password":"mypassword123"}'[m
+[32m+ [m
+[32m+ # Login[m
+[32m+ curl -X POST http://localhost:3000/api/auth/login \[m
+[32m+   -H "Content-Type: application/json" \[m
+[32m+   -d '{"email":"alice@example.com","password":"mypassword123"}'[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 6.2 Create a Tokenization[m
+[32m+ [m
+[32m+ ```bash[m
+[32m+ TOKEN="eyJhbGc..."[m
+[32m+ [m
+[32m+ curl -X POST http://localhost:3000/api/tokens/real-estate \[m
+[32m+   -H "Content-Type: application/json" \[m
+[32m+   -H "Authorization: Bearer $TOKEN" \[m
+[32m+   -d '{[m
+[32m+     "name": "Marina Bay Office",[m
+[32m+     "symbol": "MBO",[m
+[32m+     "totalSupply": 50000,[m
+[32m+     "status": "draft",[m
+[32m+     "propertyDetails": {[m
+[32m+       "address": {[m
+[32m+         "street": "10 Marina Boulevard",[m
+[32m+         "postalCode": "018981",[m
+[32m+         "city": "Singapore",[m
+[32m+         "country": "Singapore"[m
+[32m+       },[m
+[32m+       "propertyType": "commercial",[m
+[32m+       "valuation": 10000000,[m
+[32m+       "valuationCurrency": "SGD"[m
+[32m+     },[m
+[32m+     "registry": {[m
+[32m+       "authority": "SLA_INLIS",[m
+[32m+       "titleNumber": "MBO-2024-001"[m
+[32m+     },[m
+[32m+     "fractionalization": {[m
+[32m+       "totalShares": 50000,[m
+[32m+       "tokenDecimals": 18,[m
+[32m+       "currency": "SGD",[m
+[32m+       "issuerReservePercent": 15[m
+[32m+     },[m
+[32m+     "compliance": {[m
+[32m+       "jurisdiction": "Singapore",[m
+[32m+       "offeringType": "private-placement",[m
+[32m+       "requiresAccreditedInvestor": true[m
+[32m+     }[m
+[32m+   }'[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 6.3 Verify a Registry Fingerprint[m
+[32m+ [m
+[32m+ ```bash[m
+[32m+ TOKEN_ID="60f1234567890abcdef12345"[m
+[32m+ FINGERPRINT="a1b2c3d4e5..."  # 64 hex chars (SHA-256)[m
+[32m+ [m
+[32m+ curl -X POST "http://localhost:3000/api/tokens/$TOKEN_ID/verify-registry" \[m
+[32m+   -H "Content-Type: application/json" \[m
+[32m+   -H "Authorization: Bearer $TOKEN" \[m
+[32m+   -d "{\"registryFingerprint\":\"$FINGERPRINT\"}"[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 6.4 ACRA Entity Lookup[m
+[32m+ [m
+[32m+ ```bash[m
+[32m+ curl -X POST http://localhost:3000/api/acra/lookup \[m
+[32m+   -H "Content-Type: application/json" \[m
+[32m+   -H "Authorization: Bearer $TOKEN" \[m
+[32m+   -d '{"uen":"202100001A","entityName":"Example Pte Ltd"}'[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 6.5 WebSocket Messaging[m
+[32m+ [m
+[32m+ ```javascript[m
+[32m+ import { io } from "socket.io-client";[m
+[32m+ [m
+[32m+ const socket = io("ws://localhost:3000", {[m
+[32m+   auth: { token: "eyJhbGc..." }[m
+[32m+ });[m
+[32m+ [m
+[32m+ // Listen for messages[m
+[32m+ socket.on("new-message", (msg) => {[m
+[32m+   console.log("New message:", msg.content);[m
+[32m+ });[m
+[32m+ [m
+[32m+ // Send a message[m
+[32m+ socket.emit("send-message", {[m
+[32m+   recipientId: "60f1234567890abcdef12345",[m
+[32m+   content: "Is this property still available?",[m
+[32m+   type: "text"[m
+[32m+ });[m
+[32m+ [m
+[32m+ // Typing indicator[m
+[32m+ socket.emit("typing", {[m
+[32m+   recipientId: "60f1234567890abcdef12345"[m
+[32m+ });[m
+[32m+ [m
+[32m+ // Mark messages as read[m
+[32m+ socket.emit("mark-read", {[m
+[32m+   senderId: "60f1234567890abcdef12345"[m
+[32m+ });[m
+[32m+ [m
+[32m+ socket.on("message-sent", (msg) => console.log("Sent:", msg._id));[m
+[32m+ socket.on("messages-read", ({ readBy }) => console.log("Read by:", readBy));[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 6.6 Smart Contract Interaction (ethers.js)[m
+[32m+ [m
+[32m+ ```javascript[m
+[32m+ import { ethers } from "ethers";[m
+[32m+ [m
+[32m+ // ABI (abbreviated)[m
+[32m+ const abi = [[m
+[32m+   "function transfer(address to, uint256 value) returns (bool)",[m
+[32m+   "function propose(string description, bytes32 executionDataHash) returns (uint256)",[m
+[32m+   "function castVote(uint256 proposalId, bool support)",[m
+[32m+   "function executeProposal(uint256 proposalId) returns (bool)",[m
+[32m+   "function tokenPrice() view returns (uint256)",[m
+[32m+   "function balanceOf(address) view returns (uint256)",[m
+[32m+ ];[m
+[32m+ [m
+[32m+ const contract = new ethers.Contract(contractAddress, abi, wallet);[m
+[32m+ [m
+[32m+ // Check token price[m
+[32m+ const price = await contract.tokenPrice();[m
+[32m+ console.log("Price:", ethers.formatUnits(price, 18));[m
+[32m+ [m
+[32m+ // Transfer tokens[m
+[32m+ const tx = await contract.transfer(recipientAddress, ethers.parseUnits("100", 18));[m
+[32m+ await tx.wait();[m
+[32m+ [m
+[32m+ // Create a governance proposal[m
+[32m+ const proposalId = await contract.propose([m
+[32m+   "Update treasury address",[m
+[32m+   ethers.id("setTreasury(newAddress)")[m
+[32m+ );[m
+[32m+ [m
+[32m+ // Cast a vote[m
+[32m+ await contract.castVote(proposalId, true); // true = for, false = against[m
+[32m+ [m
+[32m+ // Execute the proposal after voting period[m
+[32m+ const passed = await contract.executeProposal(proposalId);[m
+[32m+ console.log("Proposal passed:", passed);[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ### 6.7 Mobile API Client[m
+[32m+ [m
+[32m+ ```javascript[m
+[32m+ // React Native authentication[m
+[32m+ import { login } from "./store/authSlice";[m
+[32m+ import { useDispatch } from "react-redux";[m
+[32m+ [m
+[32m+ const dispatch = useDispatch();[m
+[32m+ [m
+[32m+ // Login[m
+[32m+ dispatch(login({ email: "alice@example.com", password: "mypassword123" }))[m
+[32m+   .unwrap()[m
+[32m+   .then(({ user, token }) => {[m
+[32m+     console.log("Logged in as", user.username);[m
+[32m+   });[m
+[32m+ [m
+[32m+ // The token is automatically attached to all subsequent API calls[m
+[32m+ // via the axios request interceptor in api.js[m
+[32m+ ```[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ ## 7. Environment Configuration[m
+[32m+ [m
+[32m+ The backend uses `dotenv` to load configuration from `backend/.env`. The following variables are required:[m
+[32m+ [m
+[32m+ | Variable | Description | Example |[m
+[32m+ ----------|-----------|---------|[m
+[32m+ | `JWT_SECRET` | JWT signing secret (use a strong, random value) | `your-secret-here` |[m
+[32m+ | `JWT_EXPIRES_IN` | Token expiry time | `7d` |[m
+[32m+ | `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/tokenization-singapore` |[m
+[32m+ | `PORT` | Server port | `3000` |[m
+[32m+ | `NODE_ENV` | Environment | `development` / `production` |[m
+[32m+ | `CORS_ORIGIN` | Allowed CORS origins | `https://app.example.com` |[m
+[32m+ [m
+[32m+ **Smart contract deployment variables:**[m
+[32m+ [m
+[32m+ | Variable | Description |[m
+[32m+ ----------|-------------|[m
+[32m+ | `ETHEREUM_RPC_URL` | Ethereum JSON-RPC endpoint |[m
+[32m+ | `ETHEREUM_PRIVATE_KEY` | Deployer wallet private key |[m
+[32m+ | `TOKEN_TREASURY_ADDRESS` | Treasury address for investor tokens |[m
+[32m+ | `TOKEN_NAME` | Token name |[m
+[32m+ | `TOKEN_SYMBOL` | Token symbol |[m
+[32m+ | `TOKEN_FRACTIONS` | Total fraction count |[m
+[32m+ | `TOKEN_ISSUER_RESERVE_BPS` | Reserve in basis points |[m
+[32m+ | `TOKEN_ASSET_VALUATION` | Asset valuation |[m
+[32m+ | `TOKEN_CURRENCY` | Currency code |[m
+[32m+ | `TOKEN_ASSET_URI` | Metadata URI |[m
+[32m+ | `TOKEN_VOTING_PERIOD_SECONDS` | Voting period |[m
+[32m+ | `TOKEN_QUORUM_BPS` | Quorum in basis points |[m
+[32m+ [m
+[32m+ **Mobile environment (React Native @env):**[m
+[32m+ [m
+[32m+ | Variable | Description |[m
+[32m+ ----------|-------------|[m
+[32m+ | `API_URL` | Backend API base URL |[m
+[32m+ | `WS_URL` | WebSocket URL |[m
+[32m+ | `ENABLE_BIOMETRIC` | Enable biometric auth |[m
+[32m+ | `ENABLE_PUSH_NOTIFICATIONS` | Enable FCM/push |[m
+[32m+ | `ENABLE_OFFLINE_MODE` | Enable offline caching |[m
+[32m+ [m
+[32m+ ---[m
+[32m+ [m
+[32m+ *Developed with AI assistance and disclosed transparently.*[m
+[32m++>>>>>>> fix/i18n-support[m
