@@ -1,0 +1,50 @@
+name: "💰 Bounty Issue"
+description: "Crea un nuovo bounty con ricompensa in MYZ"
+title: "[BOUNTY] Breve descrizione"
+labels: ["bounty"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💰 MyZubster Bounty
+        **Tutti i bounty sono pagati ESCLUSIVAMENTE in MYZ (MyZubster Token).**
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📋 Descrizione"
+      description: "Descrivi il compito da svolgere"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "✅ Criteri di accettazione"
+      description: "Lista dei criteri per completare il bounty"
+    validations:
+      required: true
+
+  - type: input
+    id: reward
+    attributes:
+      label: "🏆 Ricompensa"
+      description: "Quantità in MYZ"
+      placeholder: "500 MYZ"
+    validations:
+      required: true
+
+  - type: input
+    id: deadline
+    attributes:
+      label: "📅 Scadenza"
+      description: "Giorni per completare"
+      placeholder: "14 giorni"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        **📌 Nota:** I pagamenti sono solo in MYZ. Fornisci il tuo wallet MYZ al momento del completamento.
