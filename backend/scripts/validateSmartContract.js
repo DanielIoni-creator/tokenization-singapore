@@ -6,6 +6,12 @@ const solc = require('solc');
 const contractPath = path.join(__dirname, '..', 'contracts', 'AssetTokenization.sol');
 const source = fs.readFileSync(contractPath, 'utf8');
 
+assert.match(
+  source,
+  /require\(activeProposalCount == 0, "AssetTokenization: proposal already active"\)/,
+  'governance should prevent concurrent proposals from indefinitely freezing transfers'
+);
+
 const input = {
   language: 'Solidity',
   sources: {

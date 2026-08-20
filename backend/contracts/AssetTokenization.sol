@@ -106,15 +106,15 @@ contract AssetTokenization {
         votingPeriod = initialVotingPeriod;
         quorumBps = initialQuorumBps;
 
-        uint256 investorSupply = totalSupply - issuerReserve;
+        uint256 investorAllocation = totalSupply - issuerReserve;
         balanceOf[msg.sender] = issuerReserve;
-        balanceOf[saleTreasury] = investorSupply;
+        balanceOf[saleTreasury] = investorAllocation;
 
         transferAllowed[msg.sender] = true;
         transferAllowed[saleTreasury] = true;
 
         emit Transfer(address(0), msg.sender, issuerReserve);
-        emit Transfer(address(0), saleTreasury, investorSupply);
+        emit Transfer(address(0), saleTreasury, investorAllocation);
         emit OwnershipTransferred(address(0), msg.sender);
     }
 
@@ -206,6 +206,7 @@ contract AssetTokenization {
     function propose(string calldata description, bytes32 executionDataHash) external returns (uint256) {
         require(balanceOf[msg.sender] > 0, "AssetTokenization: proposer has no voting power");
         require(bytes(description).length > 0, "AssetTokenization: description required");
+        require(activeProposalCount == 0, "AssetTokenization: proposal already active");
 
         proposalCount += 1;
         uint256 proposalId = proposalCount;
