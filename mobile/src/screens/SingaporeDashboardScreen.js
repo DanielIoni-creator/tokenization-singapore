@@ -22,20 +22,49 @@ const formatCurrency = (value) => `S$${Math.round(toNumber(value)).toLocaleStrin
 
 const percent = (value) => `${toNumber(value).toFixed(1)}%`;
 
-const getTokenValue = (token) => (
-  toNumber(token.value) ||
-  toNumber(token.marketValue) ||
-  toNumber(token.amount) * toNumber(token.tokenPrice || token.price)
-);
+const firstFiniteValue = (...values) => {
+  for (const value of values) {
+    if (value === null || value === undefined || value === '') continue;
 
-const getPropertyLabel = (token) => (
-  token.propertyDetails?.address?.buildingName ||
-  token.propertyDetails?.address?.street ||
-  token.propertyName ||
-  token.name ||
-  token.symbol ||
-  'Singapore property'
-);
+    const numericValue = Number(value);
+    if (Number.isFinite(numericValue)) return numericValue;
+  }
+
+  return 0;
+};
+
+const getTokenValue = (token) => {
+  const tokenDetails = token.tokenId && typeof token.tokenId === 'object' ? token.tokenId : {};
+
+  return firstFiniteValue(
+    token.value,
+    token.marketValue,
+    token.currentValue,
+    toNumber(token.amount) * firstFiniteValue(
+      token.tokenPrice,
+      token.price,
+      tokenDetails.tokenPrice,
+      tokenDetails.price,
+    ),
+  );
+};
+
+const getPropertyLabel = (token) => {
+  const tokenDetails = token.tokenId && typeof token.tokenId === 'object' ? token.tokenId : {};
+  const propertyDetails = token.propertyDetails || tokenDetails.propertyDetails;
+
+  return (
+    propertyDetails?.address?.buildingName ||
+    propertyDetails?.address?.street ||
+    token.propertyName ||
+    tokenDetails.propertyName ||
+    token.name ||
+    tokenDetails.name ||
+    token.symbol ||
+    tokenDetails.symbol ||
+    'Singapore property'
+  );
+};
 
 const SingaporeDashboardScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -53,7 +82,8 @@ const SingaporeDashboardScreen = ({ navigation }) => {
     const heldTokens = Array.isArray(portfolio?.tokens) ? portfolio.tokens : [];
     const totalInvested = toNumber(portfolio?.totalInvested);
     const totalReturns = toNumber(portfolio?.totalReturns);
-    const portfolioValue = heldTokens.reduce((sum, token) => sum + getTokenValue(token), 0) || totalInvested + totalReturns;
+    const holdingsValue = heldTokens.reduce((sum, token) => sum + getTokenValue(token), 0);
+    const portfolioValue = heldTokens.length > 0 ? holdingsValue : totalInvested + totalReturns;
     const returnRate = totalInvested > 0 ? (totalReturns / totalInvested) * 100 : 0;
     const availableProperties = new Set(availableTokens.map(getPropertyLabel)).size;
     const heldProperties = new Set(heldTokens.map(getPropertyLabel)).size;
