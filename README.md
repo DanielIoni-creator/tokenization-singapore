@@ -58,6 +58,18 @@ The backend includes an admin workflow for modeling Singapore real-estate tokens
 
 Detailed usage and sample payloads are available in [docs/singapore-real-estate-tokenization.md](docs/singapore-real-estate-tokenization.md).
 
+## Smart Contract Tokenization
+
+The backend now includes a Solidity contract for tokenized asset issuance:
+
+- `backend/contracts/AssetTokenization.sol` creates ERC-20 compatible fractional ownership units.
+- Issuer reserve and investor treasury allocations are configured at deployment.
+- Regulated transfer controls, asset valuation metadata, and token-holder governance are included.
+- `npm run validate:contracts` compiles the contract and verifies the expected ABI.
+- `npm run deploy` compiles and deploys the contract through `ethers` when chain credentials are configured.
+
+See [docs/smart-contract-tokenization.md](docs/smart-contract-tokenization.md) for deployment variables and usage notes.
+
 ## ACRA Legal Identity Integration
 
 The backend now includes ACRA/UEN verification for Singapore legal entities:
